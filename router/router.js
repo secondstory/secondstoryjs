@@ -1,29 +1,7 @@
-function require() {
-};
-
 steal.plugins("jquery",
               "jquery/class",
               "jquery/controller/history",
               "steal/openajax")
-     
-     // Either this
-     .plugins("jquery/lang/rsplit")
-     .then(function() {
-      if ($.browser.msie) {
-        var oldSplit = String.prototype.split;
-        String.prototype.split = function(separator, limit) {
-          if (typeof separator === "string") {
-            return oldSplit.apply(this, arguments);
-          } else {
-            return $.String.rsplit(this, separator);
-          }
-        };
-      }
-     })
-     
-     // Or this
-     //.then("uniform_string_prototype_split")
-     
      .then("sherpa")
      .then(function($) {
 

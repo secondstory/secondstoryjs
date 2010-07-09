@@ -1,108 +1,56 @@
-Sherpa = {
-  SplitRegex: /([\/\.])/,
-  Router: function(options) {
-    this.root = new Sherpa.Node(null, '/');
-    this.routes = {};
-    this.requestKeys = options && options.requestKeys || ['method'];
-  },
-  Node: function(parent) {
-    this.parent = parent;
-    this.lookup = {};
-    this.requestLookup = undefined;
-    this.matchPartially = false;
-    this.destination = undefined;
-    this.value = undefined;
-    this.shortcut = [];
-    this.requestShortcut = [];
-    this.requestNode = undefined;
-    this.requestKey = undefined;
-  },
-  RequestNode: function(parent) {
-    this.parent = parent;
-    this.matchPartially = false;
-    this.destination = undefined;
-    this.requestLookup = undefined;
-    this.requestKey = undefined;
-    this.requestShortcut = [];
-  },
-  Variable: function(name) {
-    this.name = name;
-  },
-  Route: function(routeSet, finalNode) {
-    this.routeSet = routeSet;
-    this.finalNode = finalNode;
-  },
-  RouteSet: function(router) {
-    this.routes = [];
-    this.router = router;
-  },
-  interfaces: { }
+RegExp.escape = function(text) {
+  if (!arguments.callee.sRE) {
+    var specials = [
+      '/', '.', '*', '+', '?', '|',
+      '(', ')', '[', ']', '{', '}', '\\'
+    ];
+    arguments.callee.sRE = new RegExp(
+      '(\\' + specials.join('|\\') + ')', 'g'
+    );
+  }
+  return text.replace(arguments.callee.sRE, '\\$1');
 }
 
-Sherpa.RouteSet.prototype = {
-  to: function(destination) {
-    for (var routeIndex = 0; routeIndex != this.routes.length; routeIndex++) {
-      this.routes[routeIndex].finalNode.destination = destination;
-    }
-    return this;
+Sherpa = {
+  SplitRegex: /\//,
+  Router: function(options) {
+    this.routes = {};
+    this.root = new Sherpa.Node();
+    this.requestKeys = options && options['requestKeys'] || ['method'];
   },
-  name: function(name) {
-    this.router.routes[name] = this;
-    return this;
-  },
-  matchPartially: function(match) {
-    for (var routeIndex = 0; routeIndex != this.routes.length; routeIndex++) {
-      this.routes[routeIndex].finalNode.matchPartially = (match === undefined || match === true);
-    }
-  },
-  matchingNode: function(params) {
-    if (this.routes.length == 1) {
-      return this.routes[0].finalNode;
-    } else {
-      var maximumMatchedRoute = undefined;
-      var maximumMatchedParams = -1;
-      for (var i = 0; i != this.routes.length; i++) {
-        var route = this.routes[i];
-        var node = route.finalNode;
-        var paramCount = 0;
-        while (node && node.value) {
-          if (node.value.name !== undefined) {
-            if ((params === undefined) || (params[node.value.name] === undefined)) {
-              paramCount = -1;
-              node = undefined;
-            } else {
-              paramCount += 1;
-              node = node.parent;
-            }
-          } else {
-            node = node.parent;
-          }
-        }
-        if (paramCount != -1 && paramCount > maximumMatchedParams) {
-          maximumMatchedParams = paramCount;
-          maximumMatchedNode = route.finalNode;
-        }
+  Path: function(route, uri) {
+    this.route = route;
+    var regex = /(\/|:[a-zA-Z0-9_]+|(?:\\:|[^:\/]+)*)/;
+    var splitUri = uri.split(regex);
+
+    this.compiledUri = [];
+    
+    for (var splitUriIdx = 0; splitUriIdx != splitUri.length; splitUriIdx++) {
+      if (splitUri[splitUriIdx].substring(0, 1) == ':') {
+        this.compiledUri.push("params['" + splitUri[splitUriIdx].substring(1) + "']");
+      } else {
+        this.compiledUri.push("'" + splitUri[splitUriIdx] + "'");
       }
-      return maximumMatchedNode;
     }
-  }
-};
-
-Sherpa.Router.prototype = {
-
-  compareRequestKeys: function(k1, k2) {
-    var i1 = this.requestKeys.indexOf(k1);
-    var i2 = this.requestKeys.indexOf(k2);
-    if (i1 < i2) {
-      return -1;
-    } else if (i2 < i1) {
-      return 1;
-    } else {
-      return 0;
+    
+    this.compiledUri = this.compiledUri.join('+');
+    
+    this.groups = [];
+    
+    for (var splitIndex = 0; splitIndex < splitUri.length; splitIndex++) {
+      var part = splitUri[splitIndex];
+      if (part == '/') {
+        this.groups.push([]);
+      } else if (part != '') {
+        this.groups[this.groups.length - 1].push(part);
+      }
     }
   },
-
-  add: function(uri, options) {
+  Route: function(router, uri) {
+    this.router = router;
+    this.requestConditions = {};
+    this.matchingConditions = {};
+    this.variableNames = [];
     var paths = [""];
     var chars = uri.split('');
     
@@ -129,266 +77,356 @@ Sherpa.Router.prototype = {
       }
     }
     
-    var routeSet = new Sherpa.RouteSet(this);
-    for (var pathIndex = 0; pathIndex != paths.length; pathIndex++) {
-      routeSet.routes.push(this.addPath(routeSet, paths[pathIndex], options));
+    this.partial = false;
+    this.paths = [];
+    for (var pathsIdx = 0; pathsIdx != paths.length; pathsIdx++) {
+      this.paths.push(new Sherpa.Path(this, paths[pathsIdx]));
     }
-    return routeSet;
   },
-
-  addPath: function(routeSet, uri, options) {
-    var splitUri = uri.split(Sherpa.SplitRegex);
-    var node = this.root;
-    for (var i = 0; i < splitUri.length; i++) {
-      var part = splitUri[i];
-      if (part != '') {
-        var firstChar = part.substring(0,1)
-        if (firstChar == ':') {
-          var variableName = part.substring(1);
-          if (options && options.matchesWith && options.matchesWith[variableName]) {
-            node = node.add(options.matchesWith[variableName], new Sherpa.Variable(variableName));
-            node.value.matchesWith = options.matchesWith[variableName];
-            node.parent.shortcut.push([node.value.matchesWith, node]);
-          } else {
-            node = node.add(null, new Sherpa.Variable(variableName));
-          }
-        } else {
-          node = node.add(part, part);
-        }
-      }
-    }
-
-    if ((options && options.conditions) || (node.requestKey && node.destination)) {
-
-      var transplantedDestination = node.destination;
-      var preRequestNode = node;
-      node.destination = undefined;
-      for (var requestKeyIndex = 0; requestKeyIndex < this.requestKeys.length; requestKeyIndex++) {
-        var key = this.requestKeys[requestKeyIndex];
-
-        // if it exists, we have to deal with it
-        // the current requestKey is the same or undefined, lets just use it.
-        if (node.requestLookup === undefined) node.requestLookup = {};
-
-        if (node.requestKey === undefined || node.requestKey == key) {
-
-          var conditionalValue = options && options.conditions[key];
-          node.requestKey = key;
-
-          if (typeof(conditionalValue) == 'function') {
-            var newNode = new Sherpa.RequestNode(node)
-            node.requestShortcut.push([conditionalValue, newNode])
-            node = newNode;
-          } else {
-            var lookupValue = conditionalValue || null;
-            delete options.conditions[key];
-            if (!node.requestLookup[lookupValue]) {
-              node.requestLookup[lookupValue] = new Sherpa.RequestNode(node);
-            }
-            node = node.requestLookup[lookupValue];
-          }
-
-        // the current requestKey mismatches the key we have ... either
-        } else {
-          switch(this.compareRequestKeys(node.requestKey, key)) {
-            // before
-            case -1:
-              if (!node.requestLookup[null]) {
-                node.requestKey = key;
-                node.requestLookup[null] = new Sherpa.RequestNode(node);
-              }
-              node = node.requestLookup[null]
-              break;
-            // after
-            case 1:
-              if (node.requestLookup === undefined) node.requestLookup = {};
-              var newNode = new Sherpa.RequestNode(node.parent);
-              if (node.parent.requestLookup) {
-                for (var parentLookupKey in node.parent.requestLookup) {
-                  if (node.parent.requestLookup[parentLookupKey] === node) {
-                    delete node.parent.requestLookup[parentLookupKey];
-                    newNode.requestLookup[parentLookupKey] = node;
-                  }
-                }
-              }
-              if (node.parent.requestShortcut) {
-                for (var parentShortcutIndex in node.parent.requestShortcut) {
-                  if (node.parent.requestShortcut[parentShortcutIndex][1] === node) {
-                    newNode.requestShortcut[parentLookupKey] = node.parent.requestShortcut[parentShortcutIndex];
-                    delete node.parent.requestShortcut[parentLookupKey];
-                  }
-                }
-              }
-              node = newNode;
-              requestKeyIndex--;
-              break;
-          }
-        }
-      }
-
-      if (transplantedDestination) {
-        while(preRequestNode.requestLookup) {
-          if (!preRequestNode.requestLookup[null]) {
-            preRequestNode.requestLookup[null] = new Sherpa.RequestNode(preRequestNode);
-          }
-          preRequestNode = preRequestNode.requestLookup[null];
-        }
-        preRequestNode.destination = transplantedDestination;
-      }
-    }
-    var route = new Sherpa.Route(routeSet, node);
-    return route;
+  Node: function() {
+    this.reset();
   },
-  recognize: function(uri, request) {
-    var params = {};
-    var position = 0;
-    var splitUri = uri.split(Sherpa.SplitRegex);
+  Response: function(path, params) {
+    this.path = path
+    this.route = path.route;
+    this.paramsArray = params;
+    this.destination = this.route.destination;
+    this.params = {};
+    for (var varIdx = 0; varIdx != this.path.variableNames.length; varIdx++) {
+      this.params[this.path.variableNames[varIdx]] = this.paramsArray[varIdx];
+    }
+  }
+};
 
-    var node = this.root;
-    while (uri.length > 0 && !node.matchPartially) {
-      var position = splitUri.shift().length;
-      var part = uri.substring(0, position);
-
-      var paramName = undefined;
-      var paramValue = undefined;
-
-      var matched = false;
-
-      if (node.shortcut.length != 0) {
-        for (var shortcutIndex in node.shortcut) {
-          if (match = uri.match(node.shortcut[shortcutIndex][0])) {
-            uri = uri.substring(match[0].length);
-            node = node.shortcut[shortcutIndex][1];
-            if (node.value.name) {
-              paramName = node.value.name;
-              paramValue = match[0];
+Sherpa.Node.prototype = {
+  reset: function() {
+    this.linear = [];
+    this.lookup = {};
+    this.catchall = null;
+  },
+  dup: function() {
+    var newNode = new Sherpa.Node();
+    for(var idx = 0; idx != this.linear.length; idx++) {
+      newNode.linear.push(this.linear[idx]);
+    }
+    for(var key in this.lookup) {
+      newNode.lookup[key] = this.lookup[key];
+    }
+    newNode.catchall = this.catchall;
+    return newNode;
+  },
+  addLinear: function(regex, count) {
+    var newNode = new Sherpa.Node();
+    this.linear.push([regex, count, newNode]);
+    return newNode;
+  },
+  addCatchall: function() {
+    if (!this.catchall) {
+      this.catchall = new Sherpa.Node();
+    }
+    return this.catchall;
+  },
+  addLookup: function(part) {
+    if (!this.lookup[part]) {
+      this.lookup[part] = new Sherpa.Node();
+    }
+    return this.lookup[part];
+  },
+  addRequestNode: function() {
+    if (!this.requestNode) {
+      this.requestNode = new Sherpa.Node();
+      this.requestNode.requestMethod = null;
+    }
+    return this.requestNode;
+  },
+  find: function(parts, request, params) {
+    if (this.requestNode || this.destination && this.destination.route.partial) {
+      var target = this;
+      if (target.requestNode) {
+        target = target.requestNode.findRequest(request);
+      }
+      if (target && target.destination && target.destination.route.partial) {
+        return new Sherpa.Response(target.destination, params);
+      }
+    }
+    if (parts.length == 0) {
+      var target = this;
+      if (this.requestNode) {
+        target = this.requestNode.findRequest(request);
+      }
+      return target && target.destination ? new Sherpa.Response(target.destination, params) : undefined;
+    } else {
+      if (this.linear.length != 0) {
+        var wholePath = parts.join('/');
+        for (var linearIdx = 0; linearIdx != this.linear.length; linearIdx++) {
+          var lin = this.linear[linearIdx];
+          var match = lin[0].exec(wholePath);
+          if (match) {
+            var matchedParams = [];
+            if (match[1] === undefined) {
+              matchedParams.push(match[0]);
+            } else {
+              for (var matchIdx = 1; matchIdx <= lin[1] + 1; matchIdx++) {
+                matchedParams.push(match[matchIdx]);
+              }
             }
-            matched = true;
-            splitUri = uri.split(Sherpa.SplitRegex);
-            break;
+            
+            var newParams = params.concat(matchedParams);
+            matchedIndex = match.shift().length;
+            var resplitParts = wholePath.substring(matchedIndex).split('/');
+            if (resplitParts.length == 1 && resplitParts[0] == '') resplitParts.shift();
+            var potentialMatch = lin[2].find(resplitParts, request, newParams);
+            if (potentialMatch) return potentialMatch;
+          }
+        }
+      } 
+      if (this.lookup[parts[0]]) {
+        var potentialMatch = this.lookup[parts[0]].find(parts.slice(1, parts.size), request, params);
+        if (potentialMatch) return potentialMatch;
+      }
+      if (this.catchall) {
+        var part = parts.shift();
+        params.push(part);
+        return this.catchall.find(parts, request, params);
+      }
+    }
+    return undefined;
+  },
+  findRequest: function(request) {
+    if (this.requestMethod) {
+      if (this.linear.length != 0 && request[this.requestMethod]) {
+        for (var linearIdx = 0; linearIdx != this.linear.length; linearIdx++) {
+          var lin = this.linear[linearIdx];
+          var match = lin[0].exec(request[this.requestMethod]);
+          if (match) {
+            matchedIndex = match.shift().length;
+            var potentialMatch = lin[2].findRequest(request);
+            if (potentialMatch) return potentialMatch;
           }
         }
       }
-
-      if (!matched && part != '') {
-        if (node.lookup[part] !== undefined) {
-          node = node.lookup[part];
-          uri = uri.substring(position);
-          position = 0;
-        } else if(node.lookup[null] !== undefined) {
-          node = node.lookup[null];
-          paramName = node.value.name;
-          paramValue = part;
-          uri = uri.substring(position);
-          position = 0;
-        } else {
-          node = undefined;
+      if (request[this.requestMethod] && this.lookup[request[this.requestMethod]]) {
+        var potentialMatch = this.lookup[request[this.requestMethod]].findRequest(request);
+        if (potentialMatch) {
+          return potentialMatch;
         }
       }
-      if (node === undefined) {
-        return undefined;
+      if (this.catchall) {
+        return this.catchall.findRequest(request);
       }
-
-      if (paramName) {
-        params[paramName] = paramValue;
-      }
-    }
-
-    if (node.requestKey) {
-      node = this.searchRequestNodes(node, request, 0);
-    }
-
-    if (node === undefined || node.destination === undefined) {
+    } else if (this.destination) {
+      return this;
+    } else {
       return undefined;
-    } else {
-      return {'destination': node.destination, 'params': params};
     }
   },
-
-  searchRequestNodes: function(node, request, index) {
-    if (index >= this.requestKeys.length) {
-      return node;
-    } else {
-      switch(this.compareRequestKeys(this.requestKeys[index], node.requestKey)) {
-        case 1:
-        if (nextNode = node.requestLookup[null]) {
-          return this.searchRequestNodes(nextNode, request, index + 1);
-        } else {
-          return undefined;
-        }
-        case 0:
-          if (node.requestShortcut.length != 0 && request[this.requestKeys[index]] !== undefined) {
-            for (var requestShortcutIndex in node.requestShortcut) {
-              if ((match = request[this.requestKeys[index]].match(node.requestShortcut[requestShortcutIndex][0])) && match[0] == request[this.requestKeys[index]]) {
-                return node.requestShortcut[requestShortcutIndex][1];
-              }
-            }
-          }
-
-          if (nextNode = node.requestLookup[request[this.requestKeys[index]]]) {
-            return this.searchRequestNodes(nextNode, request, index + 1);
-          } else if (nextNode = node.requestLookup[null]) {
-            return this.searchRequestNodes(nextNode, request, index + 1);
-          } else {
-            return undefined;
-          }
-        case -1:
-          throw(new Error('omg, not good.'));
+  transplantValue: function() {
+    if (this.destination && this.requestNode) {
+      var targetNode = this.requestNode;
+      while (targetNode.requestMethod) {
+        targetNode = (targetNode.addCatchall());
       }
+      targetNode.destination = this.destination;
+      this.destination = undefined;
     }
   },
-
-  generate: function(name, params) {
-    var pathParts = [];
-    var routeSet = this.routes[name];
-    var node = routeSet.matchingNode(params);
-    
-    if (!node) throw("matching route not found in "+name);
-
-    while (node && node.value) {
-      if (node.value.name !== undefined) {
-        var variableValue = params[node.value.name];
-        delete params[node.value.name];
-        if (node.value.matchesWith) {
-          if ((match = variableValue.match(node.value.matchesWith)) && match[0] == variableValue) {
-            pathParts.push(variableValue);
-          } else {
-            return undefined;
+  compileRequestConditions: function(router, requestConditions) {
+    var currentNodes = [this];
+    var requestMethods = router.requestKeys;
+    for (var requestMethodIdx in requestMethods) {
+      var method = requestMethods[requestMethodIdx];
+      if (requestConditions[method]) {// so, the request method we care about it ..
+        if (currentNodes.length == 1 && currentNodes[0] === this) {
+          currentNodes = [this.addRequestNode()];
+        }
+        
+        for (var currentNodeIndex = 0; currentNodeIndex != currentNodes.length; currentNodeIndex++) {
+          var currentNode = currentNodes[currentNodeIndex];
+          if (!currentNode.requestMethod) {
+            currentNode.requestMethod = method
           }
-        } else {
-          pathParts.push(variableValue);
+
+          var masterPosition = requestMethods.indexOf(method);
+          var currentPosition = requestMethods.indexOf(currentNode.requestMethod);
+          
+          if (masterPosition == currentPosition) {
+            if (requestConditions[method].compile) {
+              currentNodes[currentNodeIndex] = currentNodes[currentNodeIndex].addLinear(requestConditions[method], 0);
+            } else {
+              currentNodes[currentNodeIndex] = currentNodes[currentNodeIndex].addLookup(requestConditions[method]);
+            }
+          } else if (masterPosition < currentPosition) {
+            currentNodes[currentNodeIndex] = currentNodes[currentNodeIndex].addCatchall();
+          } else {
+            var nextNode = currentNode.dup();
+            currentNode.reset();
+            currentNode.requestMethod = method;
+            currentNode.catchall = nextNode;
+            currentNodeIndex--;
+          }
         }
       } else {
-        pathParts.push(node.value);
+        for (var currentNodeIndex = 0; currentNodeIndex != currentNodes.length; currentNodeIndex++) {
+          var node = currentNodes[currentNodeIndex];
+          if (!node.requestMethod && node.requestNode) {
+            node = node.requestNode;
+          }
+          if (node.requestMethod) {
+            currentNodes[currentNodeIndex] = node.addCatchall();
+            currentNodes[currentNodeIndex].requestMethod = null;
+          }
+        }
       }
-      node = node.parent;
     }
-    var path = '';
-    for (var i in pathParts) {
-      path += pathParts[pathParts.length - i - 1];
-    }
-    path = encodeURI(path);
-    var query = '';
-    for (var key in params) {
-      query += (query == '' ? '?' : '&') + encodeURIComponent(key).replace(/%20/g, '+') + '=' + encodeURIComponent(params[key]).replace(/%20/g, '+');
-    }
-    return path + query;
+    this.transplantValue();
+    return currentNodes;
   }
+};
 
+Sherpa.Router.prototype = {
+  generate: function(name, params) {
+    return this.routes[name].generate(params);
+  },
+  add: function(uri, options) {
+    var route = new Sherpa.Route(this, uri);
+    if (options) route.withOptions(options);
+    return route;
+  },
+  recognize: function(path, request) {
+    if (path.substring(0,1) == '/') path = path.substring(1);
+    return this.root.find(path == '' ? [] : path.split(/\//), request, []);
+  }
 };
 
 Sherpa.Route.prototype = {
-}
-
-Sherpa.Node.prototype = {
-  add: function(part, value) {
-    if (this.lookup[part] === undefined) {
-      this.lookup[part] = new Sherpa.Node(this);
-      this.lookup[part].value = value;
+  withOptions: function(options) {
+    if (options['conditions']) {
+      this.condition(options['conditions']);
     }
-    return this.lookup[part];
+    if (options['matchesWith']) {
+      this.matchesWith(options['matchesWith']);
+    }
+    if (options['matchPartially']) {
+      this.matchPartially(options['matchPartially']);
+    }
+    if (options['name']) {
+      this.matchPartially(options['name']);
+    }
+    return this;
+  },
+  name: function(routeName) {
+    this.router.routes[routeName] = this;
+    return this;
+  },
+  matchPartially: function(partial) {
+    this.partial = (partial === undefined || partial === true);
+    return this;
+  },
+  matchesWith: function(matches) {
+    for (var matchesKey in matches) {
+      this.matchingConditions[matchesKey] = matches[matchesKey];
+    }
+    return this;
+  },
+  compile: function() {
+    for(var pathIdx = 0; pathIdx != this.paths.length; pathIdx++) {
+      this.paths[pathIdx].compile();
+      for (var variableIdx = 0; variableIdx != this.paths[pathIdx].variableNames.length; variableIdx++) {
+        if (this.variableNames.indexOf(this.paths[pathIdx].variableNames[variableIdx]) == -1) this.variableNames.push(this.paths[pathIdx].variableNames[variableIdx]);
+      }
+    }
+  },
+  to: function(destination) {
+    this.compile();
+    this.destination = destination;
+    return this;
+  },
+  condition: function(conditions) {
+    for (var conditionKey in conditions) {
+      this.requestConditions[conditionKey] = conditions[conditionKey];
+    }
+    return this;
+  },
+  generate: function(params) {
+    var path = undefined;
+    if (params == undefined || this.paths.length == 1) {
+      path = this.paths[0].generate(params);
+    } else {
+      for(var pathIdx = this.paths.length - 1; pathIdx >= 0; pathIdx--) {
+        path = this.paths[pathIdx].generate(params);
+        if (path) break;
+      }
+    }
+    
+    if (path) {
+      path = encodeURI(path);
+      var query = '';
+      for (var key in params) {
+        query += (query == '' ? '?' : '&') + encodeURIComponent(key).replace(/%20/g, '+') + '=' + encodeURIComponent(params[key]).replace(/%20/g, '+');
+      }
+      return path + query;
+    } else {
+      return undefined
+    }
   }
 };
 
-// load the interfaces
-// require('./sherpa/interfaces')
+Sherpa.Path.prototype = {
+  generate: function(params) {
+    for(var varIdx = 0; varIdx != this.variableNames.length; varIdx++) {
+      if (!params[this.variableNames[varIdx]]) return undefined;
+    }
+    for(var varIdx = 0; varIdx != this.variableNames.length; varIdx++) {
+      if (this.route.matchingConditions[this.variableNames[varIdx]]) {
+        if (this.route.matchingConditions[this.variableNames[varIdx]].exec(params[this.variableNames[varIdx]].toString()) != params[this.variableNames[varIdx]].toString()) {
+          return undefined;
+        }
+      }
+    }
+    var path = eval(this.compiledUri);
+    for(var varIdx = 0; varIdx != this.variableNames.length; varIdx++) {
+      delete params[this.variableNames[varIdx]];
+    }
+    return path;
+  },
+  compile: function() {
+    this.variableNames = [];
+    var currentNode = this.route.router.root;
+    for(var groupIdx = 0; groupIdx != this.groups.length; groupIdx++) {
+      var group = this.groups[groupIdx];
+      if (group.length > 1) {
+        var pattern = '^';
+        for (var partIndex = 0; partIndex != group.length; partIndex++) {
+          var part = group[partIndex];
+          var captureCount = 0
+          if (part.substring(0,1) == ':') {
+            var variableName = part.substring(1);
+            this.variableNames.push(variableName);
+            pattern += this.route.matchingConditions[variableName] ? this.route.matchingConditions[variableName].toString() : '(.*?)'
+            captureCount += 1
+          } else {
+            pattern += RegExp.escape(part);
+          }
+        }
+        currentNode = currentNode.addLinear(new RegExp(pattern), captureCount);
+      } else if (group.length == 1) {
+        var part = group[0];
+        if (part.substring(0,1) == ':') {
+          var variableName = part.substring(1);
+          this.variableNames.push(variableName);
+          if (this.route.matchingConditions[variableName]) {
+            currentNode = currentNode.addLinear(this.route.matchingConditions[variableName], 1);
+          } else {
+            currentNode = currentNode.addCatchall();
+          }
+        } else {
+          currentNode = currentNode.addLookup(part);
+        }
+      }
+    }
+    var nodes = currentNode.compileRequestConditions(this.route.router, this.route.requestConditions);
+    for (var nodeIdx = 0; nodeIdx != nodes.length; nodeIdx++) {
+      nodes[nodeIdx].destination = this;
+    }
+  }
+};
