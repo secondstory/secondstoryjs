@@ -16,3 +16,6 @@
 [submodule "model"]
 	path = model
 	url = git@github.com:secondstory/secondstoryjs-html5storage.git
+[submodule "controller/state_machine"]
+	path = controller/state_machine
+	url = git@github.com:secondstory/secondstoryjs-statemachine.git
