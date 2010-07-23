@@ -1,3 +1,15 @@
-[submodule "router/repo"]
-	path = router/repo
-	url = git://github.com/joshbuddy/sherpa.git
+[submodule "plugins/webfontloader/repo"]
+	path = plugins/webfontloader/repo
+	url = git://github.com/typekit/webfontloader.git
+[submodule "plugins/jquerytools/repo"]
+	path = plugins/jquerytools/repo
+	url = git://github.com/jquerytools/jquerytools.git
+[submodule "view/mustache/repo"]
+	path = view/mustache/repo
+	url = git://github.com/janl/mustache.js.git
+[submodule "plugins/colorbox/repo"]
+	path = plugins/colorbox/repo
+	url = git://github.com/jackmoore/colorbox.git
+[submodule "router"]
+	path = router
+	url = git@github.com:secondstory/secondstoryjs-router.git
