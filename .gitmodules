@@ -19,3 +19,6 @@
 [submodule "controller/state_machine"]
 	path = controller/state_machine
 	url = git@github.com:secondstory/secondstoryjs-statemachine.git
+[submodule "plugins/smartTruncate"]
+	path = plugins/smartTruncate
+	url = git@github.com:secondstory/smartTruncate.git
