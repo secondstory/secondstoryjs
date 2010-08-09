@@ -4,9 +4,6 @@
 [submodule "plugins/jquerytools/repo"]
 	path = plugins/jquerytools/repo
 	url = git://github.com/jquerytools/jquerytools.git
-[submodule "view/mustache/repo"]
-	path = view/mustache/repo
-	url = git://github.com/janl/mustache.js.git
 [submodule "plugins/colorbox/repo"]
 	path = plugins/colorbox/repo
 	url = git://github.com/jackmoore/colorbox.git
