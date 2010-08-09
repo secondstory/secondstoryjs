@@ -1,5 +1,6 @@
 steal.plugins('jquery/view')
-     .then("repo/mustache").then(function($) {
+        .then("mustache-lib")
+        .then(function($) {
   
   Mustache.TemplateCache = {};
   
