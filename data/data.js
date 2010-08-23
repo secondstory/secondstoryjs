@@ -1,4 +1,4 @@
-steal.then("lib/core", "lib/data-foundation", "lib/data-json").then(function($) {
+steal.then("lib/custom-extjs").then(function($) {
 
   Ext.ns('SS', 'SS.Stores');
   

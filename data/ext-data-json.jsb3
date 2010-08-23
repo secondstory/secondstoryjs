@@ -3,7 +3,8 @@
     "licenseText": "None",
     "targets": [{
         "name": "Core",
-        "target": "lib/core.js",
+        "target": "lib/custom-extjs.js",
+        "debug": true,
         "id": "core",
         "files": [
             {"path": "sencha-touch-beta-0.93/src/core/", "name": "Ext.js"},
@@ -17,37 +18,16 @@
             {"path": "sencha-touch-beta-0.93/src/util/", "name": "Observable.js"},
             {"path": "sencha-touch-beta-0.93/src/core/", "name": "EventManager.js"},
             {"path": "sencha-touch-beta-0.93/src/core/", "name": "TouchEventManager.js"},
-            {"path": "sencha-touch-beta-0.93/src/util/", "name": "OfflineDebug.js"},
-            {"path": "sencha-touch-beta-0.93/src/util/", "name": "GeoLocation.js"},
             {"path": "sencha-touch-beta-0.93/src/util/", "name": "MixedCollection.js"},
-            {"path": "sencha-touch-beta-0.93/src/util/", "name": "TapRepeater.js"},
-            {"path": "sencha-touch-beta-0.93/src/util/", "name": "Region.js"},
-            {"path": "sencha-touch-beta-0.93/src/core/", "name": "CompositeElement.js"},
-            {"path": "sencha-touch-beta-0.93/src/core/", "name": "DomHelper.js"},
-            {"path": "sencha-touch-beta-0.93/src/core/", "name": "DomQuery.js"},
-            {"path": "sencha-touch-beta-0.93/src/core/", "name": "Fx.js"},
             {"path": "sencha-touch-beta-0.93/src/util/", "name": "JSON.js"},
             {"path": "sencha-touch-beta-0.93/src/util/", "name": "JSONP.js"},
-            {"path": "sencha-touch-beta-0.93/src/util/", "name": "Scroller.js"},
-            {"path": "sencha-touch-beta-0.93/src/util/", "name": "Draggable.js"},
-            {"path": "sencha-touch-beta-0.93/src/util/", "name": "Droppable.js"},
-            {"path": "sencha-touch-beta-0.93/src/util/", "name": "Sortable.js"},
             {"path": "sencha-touch-beta-0.93/src/util/", "name": "Format.js"},
             {"path": "sencha-touch-beta-0.93/src/util/", "name": "Date.js"},
-            {"path": "sencha-touch-beta-0.93/src/util/", "name": "Template.js"},
-            {"path": "sencha-touch-beta-0.93/src/util/", "name": "XTemplate.js"},
             {"path": "sencha-touch-beta-0.93/src/util/", "name": "DelayedTask.js"},        
             {"path": "sencha-touch-beta-0.93/src/data/", "name": "Connection.js"},
             {"path": "sencha-touch-beta-0.93/src/util/", "name": "AbstractManager.js"},
             {"path": "sencha-touch-beta-0.93/src/util/", "name": "PluginMgr.js"},
-            {"path": "sencha-touch-beta-0.93/src/widgets/", "name": "ComponentMgr.js"}
-        ]
-    },
-    {
-        "name": "Data Foundation",
-        "id": "data-foundation",
-        "target": "lib/data-foundation.js",
-        "files": [
+            {"path": "sencha-touch-beta-0.93/src/widgets/", "name": "ComponentMgr.js"},
             {"path": "sencha-touch-beta-0.93/src/data/", "name": "Batch.js"},
             {"path": "sencha-touch-beta-0.93/src/data/", "name": "Model.js"},
             {"path": "sencha-touch-beta-0.93/src/data/", "name": "Field.js"},
@@ -74,14 +54,7 @@
             {"path": "sencha-touch-beta-0.93/src/data/proxies/", "name": "LocalStorageProxy.js"},
             {"path": "sencha-touch-beta-0.93/src/data/proxies/", "name": "SessionStorageProxy.js"},
             {"path": "sencha-touch-beta-0.93/src/data/readers/", "name": "Reader.js"},
-            {"path": "sencha-touch-beta-0.93/src/data/writers/", "name": "Writer.js"}
-        ]
-    },
-    {
-        "name": "Data - Json",
-        "id": "data-json",
-        "target": "lib/data-json.js",
-        "files": [
+            {"path": "sencha-touch-beta-0.93/src/data/writers/", "name": "Writer.js"},
             {"path": "sencha-touch-beta-0.93/src/data/writers/", "name": "JsonWriter.js"},
             {"path": "sencha-touch-beta-0.93/src/data/readers/", "name": "JsonReader.js"},
             {"path": "sencha-touch-beta-0.93/src/data/readers/", "name": "ArrayReader.js"},
