@@ -1,0 +1,365 @@
+@import 'ext-base';
+
+@mixin label {
+  text-shadow: #fff 0 1px 1px;
+  color: $complement; 
+}
+
+@if $include_forms == true {
+
+  ::-webkit-input-placeholder {
+    color: lighten($complement, 20%);
+  }
+
+  .x-field-text .x-field-mask, .x-field-textarea .x-field-mask {
+    @include stretch;    
+  }
+  
+  .x-field *:focus { 
+    outline: none;
+  }
+
+  form.x-panel .x-panel-body {
+    padding: 1.2em;
+    background-color: $bg;
+
+    .x-form-fieldset .x-panel-body {
+      border: 1px solid $complement_light;
+      padding: 0;
+      -webkit-box-shadow: rgba(255,255,255,.7) 0 1px 0;
+      -webkit-border-radius: $input_radius;
+      overflow: hidden;
+    }
+  }
+
+  .x-form-fieldset {
+    margin: 1em 0 1.5em;
+
+    .x-form-fieldset-title {
+      @include label;
+      font-size: 1.2em;
+      text-shadow: #fff 0 1px 0;
+      margin: 12px 0 6px;
+      color: $complement;
+      font-weight: bold;
+    }
+
+    .x-form-fieldset-instructions {
+      @include label;
+      margin: 6px 0 12px;
+    }
+
+    .x-label-align-left, .x-label-align-right {
+      label {
+        width: $labelwidth;
+        position: absolute;
+        top: 0;
+      }
+    }
+
+    .x-label-align-bottom {
+      padding-bottom: 2.2em;
+
+      label {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: auto;
+      }
+    }
+
+    label {
+      @include bevel_text('light');
+      background-color: lighten($complement_light, 10%);
+      padding: .6em;
+      height: 100%;
+      border-top: 1px solid lighten($complement_light, 20%);
+      border-bottom: 1px solid $complement_light;
+      display: block;
+    }
+
+    .x-field {
+      overflow: hidden;
+      position: relative;
+      min-height: $txtheight;
+
+      label {
+        @include label;
+      }
+      
+      &.x-item-disabled {
+        label span, input, .x-spinner-body, select {
+          opacity: .5;
+        }
+      }
+
+      &.x-field-required {
+        label:after {
+          content: "*";
+          display: inline;
+        }
+        label {
+          color: $base_color;
+        }
+      }
+
+      &.x-label-align-left {
+        label {
+          text-align: right;
+          left: 0;
+          & + input[type="text"], & + input[type="number"], & + input[type="password"], & + input[type="url"], & + input[type="email"], & + textarea, & + .x-field-slider {
+            padding-left: $labelwidth + .6em;
+          }
+          & + input[type="checkbox"], & + input[type="radio"] {
+            right: .6em;
+          }
+          
+          & + .x-spinner {
+            margin-left: $labelwidth;
+          }
+        }
+        select {
+          margin-left: $labelwidth;
+        }
+      }
+
+      &.x-label-align-right {
+        label {
+          text-align: left;
+          right: 0;
+          & + input[type="text"], & + input[type="number"], & + input[type="password"], & + input[type="email"], & + input[type="url"], & + textarea, & + select, & + .x-field-slider  {
+            padding-right: $labelwidth + .6em;
+          }
+          & + input[type="checkbox"], & + input[type="radio"] {
+            left: .6em;
+          }
+          & + .x-spinner {
+            margin-right: $labelwidth;
+          }
+        }
+        select {
+          margin-right: $labelwidth;
+        }
+      }
+
+      &:first-child {
+        label {
+          @include border-top-left-radius($input_radius);
+        }
+        &.x-field-text input, &.x-field-textarea textarea, &.x-field-radio, &.x-field-checkbox, &.x-field-toggle, &.x-field-select select, &.x-field-slider, &.x-spinner {
+          @include border-top-radius($input_radius);
+        }
+      }
+      &:last-child {
+        label {
+          @include border-bottom-left-radius($input_radius);
+          border-bottom: 0;
+        }
+        &.x-field-text input, &.x-field-textarea textarea, &.x-field-radio, &.x-field-checkbox, &.x-field-toggle, &.x-field-select select, &.x-field-slider, &.x-spinner {
+          @include border-bottom-radius($input_radius);
+          border-bottom: 0;
+        }
+      }
+    }
+
+    .x-field-hidden {
+      display: none;
+    }
+
+    .x-field-text, .x-field-number, .x-field-textarea, .x-field-select {
+      position: relative;
+      input, textarea, select {
+        -webkit-appearance: none;
+        height: $txtheight;
+        width: 100%;
+        display: block;
+        background: #fff none;
+        border: 0;
+        border-bottom: 1px solid $complement_light;
+        -webkit-border-radius: 0;
+        padding: .3em .3em .3em .3em;
+      }
+    }
+
+    // Create the dropdown arrow
+    // for select fields
+    .x-field-select {
+      select {
+        padding: .6em;
+      }
+
+      &:after {
+        @include insertion(0,0,0,0);
+        left: auto;
+        right: 0;
+        position: absolute;
+        display: block;
+        margin: 1em;
+        border: .4em solid transparent;
+        border-top-color: $complement_light;
+        z-index: 1;
+      }
+
+      &.x-label-align-right:after {
+        right: $labelwidth;
+      }
+
+      &.x-label-align-top:after {
+        top: auto;
+        bottom: 0;
+      }
+    }
+
+    .x-field-textarea {
+      min-height: $txtareaheight;
+      textarea {
+        min-height: $txtareaheight;
+        padding-top: .5em;
+      }
+    }
+
+    .x-field-checkbox, .x-field-radio, .x-field-toggle, .x-field-slider {
+      label {
+        border-bottom: 0;
+      }
+      background-color: #fff;
+      border-bottom: 1px solid $complement_light;
+      input {
+        margin: .5em .8em;
+        width: $checkheight;
+        height: $checkheight;
+        display: block;
+        -webkit-border-radius: $checkheight/2;
+        background-color: darken($complement_light, 20%);
+        border-color: $complement;
+      }
+      
+      input[selected] {
+        background-color: darken($complement, 20%);
+      } 
+
+      &.x-label-align-right input, &.x-label-align-left input {
+        position: absolute;
+        top: 0;
+      }
+
+      &.x-label-align-right input {
+        left: 0;
+      }
+
+    }
+
+    .x-field-checkbox {
+      input {
+        -webkit-border-radius: 4px;
+      }
+    }
+
+    .x-field-slider {
+      &.x-label-align-left {
+        padding-left: $labelwidth + .3em;
+      }
+      &.x-label-align-right {
+        padding-right: $labelwidth + .3em;
+      }
+      .x-slider {
+        margin-top: .3em;
+        margin-bottom: .3em;
+      }
+    }
+
+    .x-field-toggle {
+      &.x-label-align-left, &.x-label-align-right {
+        height: $thumbsize + 1em;
+
+        .x-slider {
+          top: 0;
+          position: absolute;
+        }
+      }
+
+      &.x-label-align-left .x-slider {
+        right: 0;
+      }
+      &.x-label-align-right .x-slider {
+        left: 0;
+      }
+    }
+    
+    .x-spinner {
+      position: relative;
+      height: $txtheight;
+      
+      label {
+        border-bottom: 0;
+      }
+      background-color: #fff;
+      border-bottom: 1px solid $complement_light;
+    }
+
+    .x-spinner-body {
+      margin-left: $labelwidth;
+      display: -webkit-box;
+      -webkit-box-orient: horizontal;
+      -webkit-box-align: stretch;
+      text-align: center;
+      
+      span {
+        font-size: 1.3em;
+        font-weight: bold;
+        @include bevel_text('light');
+      }
+      
+      input {
+        -webkit-appearance: none;
+        display: block;
+        width: 3em;
+        height: $txtheight;
+        padding: 0;
+        position: relative !important;
+        top: auto;
+        left: auto;
+        right: auto;
+        border-right: 0;
+        border-left: 0;
+        @include border-radius(0);
+        border-color: $complement_light;
+        weight: bold;
+        text-align: center;
+      }
+
+      .x-spinner-down, .x-spinner-up {
+        -webkit-box-flex: 1;
+        font-weight: bold;
+        padding: .3em 0;
+        @include toolbar_button($complement_light);
+        border-top: 0;
+      }
+      .x-spinner-down {
+        border-left: 0;
+      }
+      .x-spinner-up {
+        border-right: 0;
+      }
+    }
+  }
+  
+  $toolbar_txt_height: 1.5em;
+  
+  .x-toolbar {
+    .x-field-text {
+      input {
+        -webkit-border-radius: $toolbar_txt_height/2;
+        height: $toolbar_txt_height;
+        padding-left: $toolbar_txt_height/2;
+        color: #333;
+        display: block;
+        width: 100%;
+        @include bg_gradient(#eee, 'recessed');
+      }
+    }
+  }
+  
+}
+
+@import 'form_sliders';

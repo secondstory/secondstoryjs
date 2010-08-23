@@ -1,0 +1,194 @@
+$base_color: #6f9f15;
+$active_color: #3C545C;
+$complement: #666;
+
+$include_icons: false;
+
+@import '../../../resources/sass/ext-touch';
+
+$select_height: 1.7em;
+
+.loading {
+  background: rgba(0,0,0,.3) url(../img/loading.gif) center center no-repeat;
+  display: block;
+  width: 10em;
+  height: 10em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -5em;
+  margin-top: -5em;  
+  -webkit-border-radius: .5em;
+  color: #fff;
+  text-shadow: #000 0 1px 1px;
+  text-align: center;
+  padding-top: 8em;
+  font-weight: bold;
+}
+
+.x-toolbar {
+  select {
+    background-color: $base_color;
+    -webkit-appearance: none;
+    position: relative;
+    margin: 0 10px;
+    color: #fff;
+    padding: .2em .6em;
+    font-size: .9em;
+    @include bevel_text;
+    border: 1px solid $base_color;
+    border-top: 1px solid lighten($base_color, 10%);
+    border-bottom: 1px solid darken($base_color, 10%);
+    @include bg_gradient(darken($base_color, 15%));
+    -webkit-border-radius: $select_height/2;
+    -webkit-box-shadow: darken($base_color, 20%) 0 1px 0;
+    width: 10em;
+    height: $select_height;
+
+    &:focus {
+      @include bg_gradient(darken($base_color, 15%), 'recessed');
+      border: 1px solid darken($base_color, 10%);
+    }
+  }
+  input[type=search]:focus {
+    -webkit-box-shadow: #fff 0 0 20px;
+  }
+}
+
+.loan {
+  -webkit-transform: translate3d(0,0,0);
+  position: relative;
+  min-height: 100px;
+  padding: 20px 200px 20px 100px !important;
+  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #fff;
+  background-color: #f8f8f8;
+  font-size: .9em;
+  
+  &:last-child {
+    border-bottom: 0;
+  }
+  &:first-child {
+    border-top: 0;
+  }
+  
+  .loan_img {
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+  
+  h1 {
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+  
+  .funded_info {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 140px;
+    
+    .goal {
+      color: darken($base_color, 20%);
+      text-align: center;
+      font-weight: bold;
+    }
+    
+    .funded {
+      margin: .2em 0;
+      width: 100%;
+      height: 20px;
+      @include bg_gradient(#eee);
+      border: 1px solid #eee;
+      @include border-radius(.3em);
+      .progress {
+        @include bg_gradient(darken($base_color, 5%));
+        border: 1px solid darken($base_color, 15%);
+        @include border-radius(.3em);
+        height: 100%;
+      }
+    }
+    
+    .percent {
+      text-align: center;
+      color: #999;
+    }
+  }
+}
+
+.loan.x-item-selected {
+  * {
+    color: lighten($active_color, 60%) !important;
+    @include bevel_text();
+  }
+  
+  .funded {
+    @include bg_gradient(darken($active_color, 20%), 'recessed');
+    border: 1px solid darken($active_color, 20%);
+  }
+}
+
+.loaninfo {
+  background-color: rgba(0,0,0,.8);
+  -webkit-border-radius: .6em;
+  margin: 1em;
+  position: absolute;
+  right: 0;
+  top: 4em;
+  
+  .x-button a {
+    display: block;
+    height: 100%;
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+  }
+    
+  .x-htmlcontent {
+    padding-bottom: 3em;
+  }
+  
+  h1 {
+    font-size: 22px;
+    line-height: 26px;
+    font-weight: bold;
+    margin-bottom: 0;
+  }
+  
+  h2 {
+    font-size: 16px;
+    line-height: 22px;
+    margin-bottom: .2em;
+    color: #999;
+  }
+  
+  .x-carousel-indicator {
+    background-color: rgba(255,255,255,1);
+  }
+  
+  .x-scrollbar {
+    z-index: 100;
+  }
+  
+  .payment {
+    overflow: hidden;
+    padding: .3em 0;
+    font-size: 16px;
+    border-bottom: 1px solid #ccc;
+    
+    &:last-child {
+      border-bottom: 0;
+    }
+    span {
+      display: block;
+      float: right;
+      color: $base_color;
+    }
+  }
+  
+}

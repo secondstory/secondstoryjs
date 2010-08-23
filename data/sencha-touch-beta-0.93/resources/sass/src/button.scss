@@ -1,0 +1,351 @@
+// Toolbar icons used with permission from Drew Wilson
+// http://pictos.drewwilson.com/
+// Pictos icons are (c) 2010 Drew Wilson
+
+@import 'ext-base';
+
+$button_height: 2.2em;
+$button_radius: .4em;
+$tb_button_height: 1.9em;
+
+@if $include_buttons == true {
+
+  // Basic button style
+  .x-button {
+    -webkit-border-radius: $button_radius;
+    height: $button_height;
+    line-height: 1.5em;
+    padding: .3em .8em;
+    vertical-align: middle;
+    position: relative;
+    border: 1px solid #ccc;
+    color: #333;
+    display: block;
+    @include toolbar_button(#ccc);
+    @include bevel_text('light');
+    overflow: hidden;
+
+    span {
+      width: 100%;
+      display: inline-block;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      text-align: center;
+      overflow: hidden;
+    }
+    
+    &.x-item-disabled {
+      color: #999;
+    }
+
+    &.x-button-action, &.x-button-drastic, &.x-button-action_round, &.x-button-drastic_round {
+      color: #fff;
+      font-weight: 100;
+      @include toolbar_button(desaturate(darken($alert_color, 10%), 5%));
+      @include bevel_text();
+      
+      &.x-item-disabled {
+        color: rgba(255,255,255,.6);
+      }
+    }
+
+    &.x-button-action, &.x-button-action_round {
+      @include toolbar_button(desaturate(darken($bright_color, 10%), 5%));
+    }
+
+    &.x-button-round, &.x-button-action_round, &.x-button-drastic_round {
+      -webkit-border-radius: $button_height/2;
+      padding: .3em $button_height/2;
+    }
+  }
+
+  .x-toolbar {
+    .x-button {
+      @include bevel_text();
+
+      img {
+        display: inline-block;
+        height: 24px;
+        width: 40px;
+        background-repeat: no-repeat;
+        background-position: center center;
+      }
+
+      span {
+        color: #fff;
+        font-weight: bold;
+      }
+      
+      &.x-item-disabled span {
+        color: lighten($base_color, 20%);
+      }
+    }
+  }
+
+  .x-toolbar .x-button {
+    @include toolbar_button(darken($base_color, 15%));
+  }
+
+  .x-toolbar-light .x-button {
+    @include toolbar_button($base_color, 15%);
+  }
+
+  .x-toolbar-metal .x-button {
+    @include toolbar_button(#999);
+  }
+
+  .x-toolbar-translucent .x-button {
+    @include toolbar_button(rgba(0,0,0,.3));  
+  }
+
+  .x-toolbar {
+    .x-button {
+      margin: 0 .2em;
+      span {
+        font-size: .9em;
+        line-height: 1.5em;
+      }
+    }
+
+    .x-button-pressed {
+      border: 1px solid rgba(0, 0, 0, 0.3);
+      @include bg_gradient(darken($base_color, 30%), 'recessed');
+    }
+
+    .x-button-round {
+      -webkit-border-radius: $button_height/2;
+      padding-left: $button_height/2;
+      padding-right: $button_height/2;
+    }
+
+    .x-button-action {
+      @include bg_gradient($active_color);
+
+      &.x-button-pressed {
+        @include bg_gradient(darken($active_color, 10%), 'recessed');
+      }
+    }
+
+    $tipgap: .04em;
+    $vertical_gap: .3em;
+    $mask_height: $button_height - $vertical_gap;
+    $mask_width: $mask_height/2.33;
+    $tipwidth: $button_height/2.33 - $tipgap;
+
+    .x-button-forward, .x-button-back {
+      overflow: visible;
+      &:before, &:after {
+        @include insertion($button_height/2.33 + 1em, $button_height, 0, auto);
+        -webkit-mask: .17em $vertical_gap/2 - $tipgap/2 inline_image("tip.png") no-repeat;
+        -webkit-mask-size: $mask_width $mask_height;
+        overflow: hidden;
+      }
+    }
+
+    .x-button-back {
+      margin-left: $tipwidth;
+      padding-left: .4em;
+
+      &:before {
+        left: - $tipwidth;
+      }
+      &:after {
+        left: - $tipwidth + $tipgap;
+      }
+    }
+
+    .x-button-forward {
+      margin-right: $tipwidth;
+      padding-right: .4em;
+      
+      &:before {
+        -webkit-transform: rotateY(180deg);
+        right: - $tipwidth;
+      }
+      &:after {
+        -webkit-transform: rotateY(180deg);
+        right: - $tipwidth + $tipgap;
+      }
+    }
+  }
+
+  .x-button-plain, .x-toolbar .x-button-plain,
+  .x-button-plain.x-button-pressed, .x-toolbar .x-button-mask, .x-button-mask {
+    background: none;
+    border: 0px none;
+    padding: 0;
+    -webkit-box-shadow: none;
+    text-shadow: none;
+    -webkit-border-radius: none;
+    height: auto;
+    color: inherit;
+    line-height: auto;
+
+    span {
+      width: 100%;
+      display: inline-block;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      text-align: center;
+      overflow: hidden;
+    }
+    
+
+    &.x-button-mask {
+      padding: 0 5px;
+      
+      &.x-item-disabled {
+        opacity: .5;
+      }
+
+      img {
+        position: relative;
+        width: 1.8em;
+        height: 1.8em;
+        display: block;
+        overflow: visible;
+        @include bg_gradient($base_color, 'glossy');
+
+        @if $include_icons == true {
+          &.action {
+            -webkit-mask-box-image: inline_image("toolbaricons/action.png");
+          }
+          &.add {
+            -webkit-mask-box-image: inline_image("toolbaricons/add.png");
+          }
+          &.attachment {
+            -webkit-mask-box-image: inline_image("toolbaricons/attachment.png");
+          }
+          &.bolt {
+            -webkit-mask-box-image: inline_image("toolbaricons/bolt.png");
+          }
+          &.bookmarks {
+            -webkit-mask-box-image: inline_image("toolbaricons/bookmarks.png");
+          }
+          &.chat {
+            -webkit-mask-box-image: inline_image("toolbaricons/chat.png");
+          }
+          &.compose {
+            -webkit-mask-box-image: inline_image("toolbaricons/compose.png");
+          }
+          &.delete {
+            -webkit-mask-box-image: inline_image("toolbaricons/delete.png");
+          }
+          &.home {
+            -webkit-mask-box-image: inline_image("toolbaricons/home.png");
+          }
+          &.locate {
+            -webkit-mask-box-image: inline_image("toolbaricons/locate.png");
+          }
+          &.bolt {
+            -webkit-mask-box-image: inline_image("toolbaricons/bolt.png");
+          }
+          &.maps {
+            -webkit-mask-box-image: inline_image("toolbaricons/maps.png");
+          }
+          &.organize {
+            -webkit-mask-box-image: inline_image("toolbaricons/organize.png");
+          }
+          &.refresh {
+            -webkit-mask-box-image: inline_image("toolbaricons/refresh.png");
+          }
+          &.reply {
+            -webkit-mask-box-image: inline_image("toolbaricons/reply.png");
+          }
+          &.search {
+            -webkit-mask-box-image: inline_image("toolbaricons/search.png");
+          }
+          &.settings {
+            -webkit-mask-box-image: inline_image("toolbaricons/settings.png");
+          }
+          &.tag {
+            -webkit-mask-box-image: inline_image("toolbaricons/tag.png");
+          }
+          &.trash {
+            -webkit-mask-box-image: inline_image("toolbaricons/trash.png");
+          }
+        }
+      }
+
+      &.x-button-pressed {
+        background: none;
+        -webkit-box-shadow: none;
+        img {
+          @include bg_gradient($active_color);
+        }
+      }
+    }
+  }
+
+  .x-toolbar {
+    .x-button.x-button-mask {
+      img {
+        @include bg_gradient(lighten($base_color, 50%));
+      }
+      &.x-button-pressed {
+        @include radial-gradient(color-stops(fade-out(lighten($active_color, 40%), .3), fade-out($base_color, .4) 15px, fade-out($base_color, 1) 30px));
+        img {
+          @include bg_gradient(lighten($active_color, 30%));
+        }
+      }
+    }
+  }
+  
+  .x-splitbutton {
+    .x-button {
+      -webkit-border-radius: 0;
+      margin: 0;
+      &:first-child {
+        @include border-left-radius($button_radius);
+      }
+      &:last-child {
+        @include border-right-radius($button_radius);
+      }
+      &:not(:first-child) {
+        border-left: 0;
+      }
+    }
+  }
+  
+  $disclosure_size: 1em;
+  
+  .x-disclosure {
+/*    background: inline_image("disclosure.png") no-repeat;*/
+    -webkit-mask-box-image: inline_image("disclosure.png");
+    @include bg_gradient(saturate($active_color, 10%));
+    width: 30px;
+    height: 30px;
+  }
+  
+  .x-hasbadge {
+    overflow: visible;
+
+    span.x-badge {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      display: inline-block;
+      -webkit-border-radius: 10px;
+      padding: 1px 5px;
+      z-index: 30;
+      -webkit-box-shadow: #000 0 1px 3px;
+      text-shadow: rgba(0,0,0,.5) 0 -1px 0;
+      color: #fff;
+      text-align: center;
+      border: 2px solid #fff;
+      position: absolute;
+      width: auto;
+      min-width: 20px;
+      height: 20px;
+      line-height: 1.5em;
+      font-size: 10px;
+      top: -2px;
+      right: 0px;
+      max-width: 40px;
+      font-weight: bold;
+
+      @include bg_gradient(darken($alert_color, 20%), 'glossy');
+      display: inline-block;
+    }
+  }
+}

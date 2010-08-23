@@ -1,0 +1,73 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />    
+  <title>The source code</title>
+    <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+</head>
+<body  onload="prettyPrint();">
+    <pre class="prettyprint lang-js"><div id="cls-Ext.form.Toggle"></div>/**
+ * @class Ext.form.Toggle
+ * @extends Ext.form.Slider
+ * <p>Specialized Slider with a single thumb and only two values. By default the toggle component can
+ * be switched between the values of 0 and 1.</p>
+ * @xtype toggle
+ */
+Ext.form.Toggle = Ext.extend(Ext.form.Slider, {
+    minValue: 0,
+    maxValue: 1,
+    ui: 'toggle',
+    
+    <div id="cfg-Ext.form.Toggle-showClear"></div>/**
+     * @cfg {Boolean} showClear @hide
+     */
+
+    <div id="cfg-Ext.form.Toggle-minValueCls"></div>/**
+     * @cfg {String} minValueCls CSS class added to the field when toggled to its minValue
+     */
+    minValueCls: 'x-toggle-off',
+
+    <div id="cfg-Ext.form.Toggle-maxValueCls"></div>/**
+     * @cfg {String} maxValueCls CSS class added to the field when toggled to its maxValue
+     */
+    maxValueCls: 'x-toggle-on',
+
+    <div id="method-Ext.form.Toggle-toggle"></div>/**
+     * Toggles between the minValue (0 by default) and the maxValue (1 by default)
+     */
+    toggle: function() {
+        var thumb = this.thumbs[0],
+            value = thumb.getValue();
+
+        this.setValue(value == this.minValue ? this.maxValue : this.minValue);
+    },
+
+    // inherit docs
+    setValue: function(value) {
+        Ext.form.Toggle.superclass.setValue.apply(this, arguments);
+
+        var fieldEl = this.fieldEl;
+
+        if (this.constrain(value) === this.minValue) {
+            fieldEl.addClass(this.minValueCls);
+            fieldEl.removeClass(this.maxValueCls);
+        } 
+        else {
+            fieldEl.addClass(this.maxValueCls);
+            fieldEl.removeClass(this.minValueCls);
+        }
+    },
+
+    /**
+     * @private
+     * Listener to the tap event, just toggles the value
+     */
+    onTap: function() {
+        this.toggle();
+    }
+});
+
+Ext.reg('toggle', Ext.form.Toggle);
+</pre>    
+</body>
+</html>

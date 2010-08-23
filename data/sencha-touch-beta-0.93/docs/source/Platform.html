@@ -1,0 +1,68 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />    
+  <title>The source code</title>
+    <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+</head>
+<body  onload="prettyPrint();">
+    <pre class="prettyprint lang-js"><div id="cls-Ext.platform"></div>/**
+ * @class Ext.platform
+ * @singleton
+ *
+ * Determines information about the current platform the application is running
+ * on.
+ */
+Ext.platform = {
+    <div id="method-Ext.platform-isWebkit"></div>/**
+     * Returns true if the application is running on a webkit browser.
+     * @return Boolean
+     */
+    isWebkit: /webkit/i.test(Ext.userAgent),
+
+    <div id="method-Ext.platform-isPhone"></div>/**
+     * Returns true if the application is running on a phone.
+     * @return {Boolean} true if the application is running on a phone.
+     */
+    isPhone: /android|iphone/i.test(Ext.userAgent) && !(/ipad/i.test(Ext.userAgent)),
+
+    <div id="method-Ext.platform-isTablet"></div>/**
+     * Returns true if the application is running on an iPad.
+     * @return {Boolean} true if the application is running on an iPad.
+     */
+    isTablet: /ipad/i.test(Ext.userAgent),
+
+    <div id="method-Ext.platform-isChrome"></div>/**
+     * Returns true if the application is running on Chrome.
+     * @return {Boolean} true if the application is running on Chrome.
+     */
+    isChrome: /chrome/i.test(Ext.userAgent),
+
+    <div id="method-Ext.platform-isAndroidOS"></div>/**
+     * Returns true if the application is running on the Android OS.
+     * @return {Boolean} true if the application is running on a phone.
+     */
+    isAndroidOS: /android/i.test(Ext.userAgent),
+
+    <div id="method-Ext.platform-isIPhoneOS"></div>/**
+     * Returns true if the application is running on the iPhone OS.
+     * @return {Boolean} true if the application is running on a phone.
+     */
+    isIPhoneOS: /iphone|ipad/i.test(Ext.userAgent),
+
+    <div id="method-Ext.platform-hasOrientationChange"></div>/**
+     * Returns true if the browser has the 'orientationchange' event.
+     * @return {Boolean} true if the browser has the 'orientationchange' event.
+     */
+    hasOrientationChange: ('onorientationchange' in window),
+
+    <div id="method-Ext.platform-hasTouch"></div>/**
+     * Returns true if the browser has the 'ontouchstart' event.
+      * @return {Boolean} true if the browser has the 'ontouchstart' event.
+     */
+    hasTouch: ('ontouchstart' in window)
+};
+
+</pre>    
+</body>
+</html>

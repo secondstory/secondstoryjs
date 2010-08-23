@@ -1,0 +1,118 @@
+$experimental-support-for-mozilla: false;
+$experimental-support-for-opera: false;
+$experimental-support-for-microsoft: false;
+$experimental-support-for-khtml: false;
+
+@import "compass/css3";
+@import "blueprint/typography";
+
+// These are the only two variables which drive the theme color scheme
+$base_color: #647482 !default;
+$alert_color: red !default;
+
+// These are created automatically from the above,
+// but can also be set to explicit values
+$bright_color: #92cf00 !default;
+$active_color: darken(saturate($base_color, 65%), 5%) !default;
+$complement: complement($base_color) !default;
+$complement_light: lighten($complement, 40%) !default;
+
+$default_gradient: 'matte' !default;
+$default_button_gradient: $default_gradient !default;
+
+$bg: desaturate(lighten($base_color, 50%), 5%) !default;
+$input_radius: .2em !default;
+$txtheight: 2.5em !default;
+$txtareaheight: 6em !default;
+
+$thumbsize: $txtheight;
+$togglesize: $thumbsize - .3em;
+$checkheight: $thumbsize - 1em;
+
+$labelwidth: 7em;
+$spacing: .3em;
+
+// Default includes
+// Easily disable unused styles by setting false
+// to optimize stylesheet size.
+$include_buttons: true !default;
+$include_icons: true !default;
+$include_forms: true !default;
+$include_form_sliders: true !default;
+$include_tabs: true !default;
+$include_bottom_tabs: true !default;
+$include_top_tabs: true !default;
+$include_carousel: true !default;
+$include_toolbars: true !default;
+$include_html_style: true !default;
+$include_picker: true !default;
+$include_indexbar: true !default;
+$include_list: true !default;
+
+// options: matte, bevel, glossy, recessed, flat
+@mixin bg_gradient($bg_color, $type: $default_gradient) {
+  @if $type == matte {
+    @include linear-gradient(color_stops(lighten($bg_color, 30%), lighten($bg_color, 10%) 2%, darken($bg_color, 5%)));
+  } @else if $type == bevel {
+    @include linear-gradient(color_stops(lighten($bg_color, 30%), lighten($bg_color, 15%) 2%, $bg_color 65%, saturate(darken($bg_color, 10%), 10%)));
+  } @else if $type == glossy {
+    @include linear-gradient(color_stops(lighten($bg_color, 40%), lighten($bg_color, 12%) 2%, lighten($bg_color, 13%) 50%, lighten($bg_color, 10%) 51%, $bg_color));
+  } @else if $type == recessed {
+    @include linear-gradient(color_stops($bg_color, darken($bg_color, 5%) 4%, darken($bg_color, 1%) 10%, $bg_color 65%, lighten($bg_color, .5%)));
+  } @else if $type == flat {
+    background-color: $bg_color;
+  }
+}
+
+// The toolbar button mixin adds background colors and borders
+// as well as styles the rounded and back/forward button types
+@mixin toolbar_button($bgcolor, $type: $default_button_gradient){
+  border: 1px solid darken($bgcolor, 20%);
+  border-top-color: darken($bgcolor, 15%);
+  &.x-button-back:before, &.x-button-forward:before {
+    background: darken($bgcolor, 20%);
+  }
+  &, &.x-button-back:after, &.x-button-forward:after {
+    @include bg_gradient($bgcolor, $default_button_gradient);
+  }
+  -webkit-box-shadow: inset lighten($bgcolor, 5%) 0 0 .1em .1em, rgba(255,255,255,.25) 0 .1em 0;
+  
+  &.x-button-pressed, &.x-button-active {
+    @include bg_gradient(darken($bgcolor, 5%), 'recessed');
+    -webkit-box-shadow: inset saturate(darken($bgcolor, 3%), 5%) 0 0 .5em, rgba(255,255,255,.25) 0 .1em 0;
+    &.x-button-back:after, &.x-button-forward:after {
+      @include bg_gradient(darken($bgcolor, 5%), 'recessed');
+    }
+    &.x-button-back:after {
+      -webkit-box-shadow: inset lighten($bgcolor, 5%) 0 0 .1em .1em;
+    }
+    &.x-button-forward:after {
+      -webkit-box-shadow: inset lighten($bgcolor, 5%) 0 0 -.1em .1em;
+    }
+  }
+}
+
+@mixin bevel_text($type: 'shadow') {
+  @if $type == shadow {
+    text-shadow: rgba(0,0,0,.5) 0 -1px 0;
+  } @else {
+    text-shadow: rgba(255,255,255,.25) 0 1px 0;
+  }
+}
+
+@mixin insertion($width: 30px, $height: 30px, $top: 0, $left: 0) {
+  content: "\00a0";
+  position: absolute;
+  width: $width;
+  height: $height;
+  top: $top;
+  left: $left;
+}
+
+@mixin stretch {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}

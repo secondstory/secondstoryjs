@@ -1,0 +1,27 @@
+$base_color: #888;
+$active_color: #DEA500; // orange
+
+$list_color: #fff;
+$list_bg_color: #000;
+$list_pressed_color: #000;
+$list_highlights: false;
+
+$default_button_gradient: 'glossy';
+
+@import 'src/reset';
+@import 'src/core';
+@import 'src/panel';
+@import 'src/button';
+@import 'src/picker';
+@import 'src/tabs';
+@import 'src/toolbar';
+@import 'src/carousel';
+@import 'src/indexbar';
+@import 'src/list';
+@import 'src/layout';
+@import 'src/form';
+
+.x-list-group-items > *,
+.x-list-flat .x-scroller > * {
+  border-bottom: 1px solid #333;
+}

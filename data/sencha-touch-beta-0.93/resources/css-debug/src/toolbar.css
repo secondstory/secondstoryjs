@@ -1,0 +1,56 @@
+/* line 7, ../../sass/src/toolbar.scss */
+.x-toolbar {
+  height: 3em;
+  padding: 0 0.5em;
+  overflow: hidden;
+  position: relative;
+  border-top: 1px solid #000;
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(0%, #7e8e9b), color-stop(2%, #4e5b65), color-stop(100%, #2d343a)); }
+  /* line 15, ../../sass/src/toolbar.scss */
+  .x-toolbar > * {
+    z-index: 1; }
+  /* line 19, ../../sass/src/toolbar.scss */
+  .x-toolbar.x-docked-top {
+    border-bottom: 1px solid #0b0d0f; }
+  /* line 23, ../../sass/src/toolbar.scss */
+  .x-toolbar.x-docked-top:nth-of-type(n+2) {
+    border-bottom: 1px solid #0b0d0f; }
+  /* line 27, ../../sass/src/toolbar.scss */
+  .x-toolbar.x-toolbar-light {
+    border-top: 1px solid #384148;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(0%, #b7c0c8), color-stop(2%, #7e8d9b), color-stop(100%, #596774)); }
+  /* line 32, ../../sass/src/toolbar.scss */
+  .x-toolbar.x-toolbar-metal {
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(0%, #e5e5e5), color-stop(2%, #b3b3b3), color-stop(100%, #8c8c8c));
+    color: #555;
+    text-shadow: rgba(255, 255, 255, 0.5) 0 1px 0; }
+  /* line 38, ../../sass/src/toolbar.scss */
+  .x-toolbar .x-toolbar-title {
+    z-index: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    line-height: 2.4em;
+    font-weight: bold;
+    font-size: 1.2em;
+    text-shadow: #000 0 1px 0;
+    color: #fff; }
+
+/* line 54, ../../sass/src/toolbar.scss */
+.x-floating .x-toolbar:first-child {
+  border-bottom: 0;
+  -webkit-border-top-left-radius: 4px;
+  border-top-left-radius: 4px;
+  -webkit-border-top-right-radius: 4px;
+  border-top-right-radius: 4px; }
+  /* line 58, ../../sass/src/toolbar.scss */
+  .x-floating .x-toolbar:first-child.x-toolbar-dark {
+    background: #21272c;
+    border-top: 1px solid #2d343a; }
+  /* line 63, ../../sass/src/toolbar.scss */
+  .x-floating .x-toolbar:first-child.x-toolbar-light {
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(0%, #e3e6e9), color-stop(2%, #a9b3bd), color-stop(100%, #7e8d9c));
+    border-top: 1px solid #8c9aa7; }

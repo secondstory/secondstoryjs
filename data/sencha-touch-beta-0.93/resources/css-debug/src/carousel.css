@@ -1,0 +1,66 @@
+/*  .x-carousel > .x-panel-body {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+
+    > .x-scroller {
+      -webkit-box-flex: 1;
+      display: -webkit-box;
+      -webkit-box-orient: horizontal;
+    }
+  }
+
+  .x-carousel-vertical > .x-panel-body > .x-scroller {
+    -webkit-box-orient: vertical;
+  }*/
+/* line 19, ../../sass/src/carousel.scss */
+.x-carousel-body {
+  overflow: hidden; }
+
+/* line 23, ../../sass/src/carousel.scss */
+.x-carousel-item {
+  position: absolute;
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-transition-property: translate3d;
+  -webkit-transition-timing-function: ease-out;
+  -webkit-transition-duration: 0ms; }
+
+/* line 31, ../../sass/src/carousel.scss */
+.x-carousel-indicator {
+  position: absolute;
+  z-index: 1;
+  vertical-align: middle;
+  text-align: center;
+  display: -webkit-box;
+  -webkit-box-pack: center;
+  -webkit-box-align: center; }
+  /* line 40, ../../sass/src/carousel.scss */
+  .x-carousel-indicator.x-carousel-indicator-horizontal {
+    height: 30px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    -webkit-box-orient: horizontal; }
+  /* line 48, ../../sass/src/carousel.scss */
+  .x-carousel-indicator.x-carousel-indicator-vertical {
+    width: 30px;
+    height: 100%;
+    right: 0;
+    top: 0;
+    -webkit-box-orient: vertical; }
+  /* line 56, ../../sass/src/carousel.scss */
+  .x-carousel-indicator span {
+    width: 8px;
+    height: 8px;
+    -webkit-border-radius: 4px;
+    display: block;
+    margin: 3px;
+    background-color: rgba(0, 0, 0, 0.3); }
+    /* line 64, ../../sass/src/carousel.scss */
+    .x-carousel-indicator span.x-carousel-indicator-active {
+      background-color: black; }
+  /* line 69, ../../sass/src/carousel.scss */
+  .x-carousel-indicator.x-carousel-indicator-light span {
+    background-color: rgba(255, 255, 255, 0.3); }
+    /* line 72, ../../sass/src/carousel.scss */
+    .x-carousel-indicator.x-carousel-indicator-light span.x-carousel-indicator-active {
+      background-color: white; }

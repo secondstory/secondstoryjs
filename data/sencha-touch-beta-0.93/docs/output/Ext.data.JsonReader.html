@@ -1,0 +1,62 @@
+<div class="body-wrap" xmlns:ext="http://www.extjs.com"><div class="top-tools"><a class="inner-link" href="#Ext.data.JsonReader-props"><img src="images/default/s.gif" class="item-icon icon-prop">Properties</a>&#13;<a class="inner-link" href="#Ext.data.JsonReader-methods"><img src="images/default/s.gif" class="item-icon icon-method">Methods</a>&#13;<a class="inner-link" href="#Ext.data.JsonReader-events"><img src="images/default/s.gif" class="item-icon icon-event">Events</a>&#13;<a class="inner-link" href="#Ext.data.JsonReader-configs"><img src="images/default/s.gif" class="item-icon icon-config">Config Options</a>&#13;<a class="bookmark" href="../docs/?class=Ext.data.JsonReader"><img src="images/default/s.gif" class="item-icon icon-fav">Direct Link</a>&#13;</div><div class="inheritance res-block"><pre class="res-block-inner"><a href="output/Ext.data.Reader.html" ext:member="" ext:cls="Ext.data.Reader">Reader</a>&#13;&nbsp;&nbsp;<img src="resources/elbow-end.gif">JsonReader</pre></div><h1>Class <a href="source/JsonReader.html#cls-Ext.data.JsonReader">Ext.data.JsonReader</a></h1><table cellspacing="0"><tr><td class="label">Package:</td><td class="hd-info">Ext.data</td></tr><tr><td class="label">Defined In:</td><td class="hd-info"><a href="source/JsonReader.html#cls-Ext.data.JsonReader">JsonReader.js</a></td></tr><tr><td class="label">Class:</td><td class="hd-info"><a href="source/JsonReader.html#cls-Ext.data.JsonReader">JsonReader</a></td></tr><tr><td class="label">Subclasses:</td><td class="hd-info"><a href="output/Ext.data.ArrayReader.html" ext:cls="Ext.data.ArrayReader">ArrayReader</a></td></tr><tr><td class="label">Extends:</td><td class="hd-info"><a href="output/Ext.data.Reader.html" ext:cls="Ext.data.Reader" ext:member="">Reader</a></td></tr></table><div class="description"><p>Data reader class to create an Array of <a href="output/Ext.data.Model.html" ext:cls="Ext.data.Model">Ext.data.Model</a> objects from a 
+JSON packet based on mappings in a provided Ext.data.Model constructor.</p>
+<p>Example code:</p>
+<pre><code><b>var</b> myReader = <b>new</b> Ext.data.Store({
+    proxy: {
+        type: <em>'ajax'</em>,
+        reader: {
+            type: <em>'json'</em>,
+            <i>// metadata configuration options:</i>
+            idProperty: <em>'id'</em>
+            root: <em>'rows'</em>,
+            totalProperty: <em>'results'</em>
+        }
+    },
+    
+    <i>// the fields config option will internally create an Ext.data.Model</i>
+    <i>// constructor that provides mapping <b>for</b> reading the record data objects</i>
+    fields: [
+        <i>// map Record<em>'s '</em>firstname<em>' field to data object'</em>s key of same name</i>
+        {name: <em>'name'</em>},
+        <i>// map Record<em>'s '</em>job<em>' field to data object'</em>s <em>'occupation'</em> key</i>
+        {name: <em>'job'</em>, mapping: <em>'occupation'</em>}
+    ],
+});</code></pre>
+<p>This would consume a JSON data object of the form:</p>
+<pre><code>{
+    results: 2000, <i>// Reader<em>'s configured totalProperty</i>
+    rows: [        <i>// Reader'</em>s configured root</i>
+        <i>// record data objects:</i>
+        { id: 1, firstname: <em>'Bill'</em>, occupation: <em>'Gardener'</em> },
+        { id: 2, firstname: <em>'Ben'</em> , occupation: <em>'Horticulturalist'</em> },
+        ...
+    ]
+}</code></pre></div><div class="hr"></div><a id="Ext.data.JsonReader-configs"></a><h2>Config Options</h2><table cellspacing="0" class="member-table"><tbody><tr><th colspan="2" class="sig-header">Config Options</th><th class="msource-header">Defined By</th></tr><tr class="config-row  inherited"><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Ext.data.Reader-idProperty"></a><b><a href="source/Reader.html#cfg-Ext.data.Reader-idProperty">idProperty</a></b> : String<div class="mdesc">Name of the property within a row object
+that contains a record identifier value.</div></td><td class="msource"><a href="output/Ext.data.Reader.html#idProperty" ext:member="#idProperty" ext:cls="Ext.data.Reader">Reader</a></td></tr><tr class="config-row expandable inherited"><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Ext.data.Reader-root"></a><b><a href="source/Reader.html#cfg-Ext.data.Reader-root">root</a></b> : String<div class="mdesc"><div class="short">Required.  The name of the property
+which contains the Array of row objects.  Defaults to undefined.
+An exception wil...</div><div class="long"><b>Required</b>.  The name of the property
+which contains the Array of row objects.  Defaults to <tt>undefined</tt>.
+An exception will be thrown if the root property is undefined. The data
+packet value for this property should be an empty array to clear the data
+or show no data.</div></div></td><td class="msource"><a href="output/Ext.data.Reader.html#root" ext:member="#root" ext:cls="Ext.data.Reader">Reader</a></td></tr><tr class="config-row expandable inherited"><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Ext.data.Reader-successProperty"></a><b><a href="source/Reader.html#cfg-Ext.data.Reader-successProperty">successProperty</a></b> : String<div class="mdesc"><div class="short">Name of the property from which to
+retrieve the success attribute. See
+Ext.data.DataProxy.exception
+for additional in...</div><div class="long">Name of the property from which to
+retrieve the success attribute. See
+<a href="output/Ext.data.DataProxy.html" ext:cls="Ext.data.DataProxy">Ext.data.DataProxy</a>.<a href="output/Ext.data.DataProxy.html#Ext.data.DataProxy-exception" ext:member="exception" ext:cls="Ext.data.DataProxy">exception</a>
+for additional information.</div></div></td><td class="msource"><a href="output/Ext.data.Reader.html#successProperty" ext:member="#successProperty" ext:cls="Ext.data.Reader">Reader</a></td></tr><tr class="config-row expandable inherited"><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Ext.data.Reader-totalProperty"></a><b><a href="source/Reader.html#cfg-Ext.data.Reader-totalProperty">totalProperty</a></b> : String<div class="mdesc"><div class="short">Name of the property from which to
+retrieve the total number of records in the dataset. This is only needed
+if the wh...</div><div class="long">Name of the property from which to
+retrieve the total number of records in the dataset. This is only needed
+if the whole dataset is not passed in one go, but is being paged from
+the remote server.</div></div></td><td class="msource"><a href="output/Ext.data.Reader.html#totalProperty" ext:member="#totalProperty" ext:cls="Ext.data.Reader">Reader</a></td></tr></tbody></table><a id="Ext.data.JsonReader-props"></a><h2>Public Properties</h2><table cellspacing="0" class="member-table"><tbody><tr><th colspan="2" class="sig-header">Property</th><th class="msource-header">Defined By</th></tr><tr class="property-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Ext.data.JsonReader-jsonData"></a><b><a href="source/JsonReader.html#prop-Ext.data.JsonReader-jsonData">jsonData</a></b> : Mixed<div class="mdesc">DEPRECATED - will be removed in Ext JS 5.0. This is just a copy of this.rawData - use that instead</div></td><td class="msource">JsonReader</td></tr><tr class="property-row  inherited"><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Ext.data.Reader-rawData"></a><b><a href="source/Reader.html#prop-Ext.data.Reader-rawData">rawData</a></b> : Mixed<div class="mdesc">The raw data object that was last passed to readRecords. Stored for further processing if needed</div></td><td class="msource"><a href="output/Ext.data.Reader.html#rawData" ext:member="#rawData" ext:cls="Ext.data.Reader">Reader</a></td></tr></tbody></table><a id="Ext.data.JsonReader-methods"></a><h2>Public Methods</h2><table cellspacing="0" class="member-table"><tbody><tr><th colspan="2" class="sig-header">Method</th><th class="msource-header">Defined By</th></tr><tr class="method-row expandable inherited"><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Ext.data.Reader-getResponseData"></a><b><a href="source/Reader.html#method-Ext.data.Reader-getResponseData">getResponseData</a></b>(&nbsp;<code>Object&nbsp;response</code>&nbsp;)
+    :
+                                        Object<div class="mdesc"><div class="short">Takes a raw response object (as passed to this.read) and returns the useful data segment of it. This must be implemen...</div><div class="long">Takes a raw response object (as passed to this.read) and returns the useful data segment of it. This must be implemented by each subclass<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>response</code> : Object<div class="sub-desc">The responce object</div></li></ul><strong>Returns:</strong><ul><li><code>Object</code><div class="sub-desc">The useful data from the response</div></li></ul></div></div></div></td><td class="msource"><a href="output/Ext.data.Reader.html#getResponseData" ext:member="#getResponseData" ext:cls="Ext.data.Reader">Reader</a></td></tr><tr class="method-row expandable inherited"><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Ext.data.Reader-read"></a><b><a href="source/Reader.html#method-Ext.data.Reader-read">read</a></b>(&nbsp;<code>Object&nbsp;response</code>&nbsp;)
+    :
+                                        Ext.data.ResultSet<div class="mdesc"><div class="short">Reads the given response object. This method normalizes the different types of response object that may be passed
+to ...</div><div class="long">Reads the given response object. This method normalizes the different types of response object that may be passed
+to it, before handing off the reading of records to the <a href="output/readRecords.html" ext:cls="readRecords">readRecords</a> function.<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>response</code> : Object<div class="sub-desc">The response object. This may be either an XMLHttpRequest object or a plain JS object</div></li></ul><strong>Returns:</strong><ul><li><code>Ext.data.ResultSet</code><div class="sub-desc">The parsed ResultSet object</div></li></ul></div></div></div></td><td class="msource"><a href="output/Ext.data.Reader.html#read" ext:member="#read" ext:cls="Ext.data.Reader">Reader</a></td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Ext.data.JsonReader-readRecords"></a><b><a href="source/JsonReader.html#method-Ext.data.JsonReader-readRecords">readRecords</a></b>(&nbsp;<code>Object&nbsp;data</code>&nbsp;)
+    :
+                                        Ext.data.ResultSet<div class="mdesc"><div class="short">Reads a JSON object and returns a ResultSet. Uses the internal getTotal and getSuccess extractors to
+retrieve meta da...</div><div class="long">Reads a JSON object and returns a ResultSet. Uses the internal getTotal and getSuccess extractors to
+retrieve meta data from the response, and extractData to turn the JSON data into model instances.<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>data</code> : Object<div class="sub-desc">The raw JSON data</div></li></ul><strong>Returns:</strong><ul><li><code>Ext.data.ResultSet</code><div class="sub-desc">A ResultSet containing model instances and meta data about the results</div></li></ul></div></div></div></td><td class="msource">JsonReader</td></tr></tbody></table><a id="Ext.data.JsonReader-events"></a><h2>Public Events</h2><div class="no-members">This class has no public events.</div></div>

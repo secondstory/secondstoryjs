@@ -1,0 +1,34 @@
+@import 'ext-base';
+
+$barWidth: 35px;
+
+@if $include_indexbar == true {
+  .x-indexbar {
+    padding: 0 5px;
+    width: $barWidth;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-box-align: stretch;
+    -webkit-box-pack: center;
+
+    &.x-indexbar-vertical > .x-panel-body {
+      padding: 5px 0;
+      -webkit-border-radius: $barWidth/2;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-box-align: center;
+    }
+
+    &.x-indexbar-pressed > .x-panel-body {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    span.x-indexbar-item {
+      color: #666;
+      font-size: 0.6em;
+      font-weight: bold;
+      display: block;
+      text-shadow: rgba(255, 255, 255, 0.4) 0 1px 0;
+    }
+  }
+}

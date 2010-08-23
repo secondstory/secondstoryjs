@@ -1,0 +1,181 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />    
+  <title>The source code</title>
+    <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+</head>
+<body  onload="prettyPrint();">
+    <pre class="prettyprint lang-js"><div id="cls-Ext.layout.BoxLayout"></div>/**
+ * @class Ext.layout.BoxLayout
+ * @extends Ext.layout.ContainerLayout
+ * <p>Base Class for HBoxLayout and VBoxLayout Classes. Generally it should not need to be used directly.</p>
+ */
+Ext.layout.BoxLayout = Ext.extend(Ext.layout.ContainerLayout, {
+    type: 'box',
+
+    targetCls: 'x-layout-box',
+    //wrapCls: 'x-layout-box-wrap',
+    innerCls: 'x-layout-box-inner',
+
+    pack : 'start',
+    direction: 'normal',
+    align: 'center',
+
+    /**
+     * @private
+     * Runs the child box calculations and caches them in childBoxCache. Subclasses can used these cached values
+     * when laying out
+     */
+    onLayout: function(owner, target) {
+        Ext.layout.BoxLayout.superclass.onLayout.call(this, owner, target);
+        var height, width;
+        if (this.pack === 'left' || this.pack === 'top') {
+            this.pack = 'start';
+        }
+        else if (this.pack === 'right' || this.pack === 'bottom') {
+            this.pack = 'end';
+        }
+        
+        this.innerCt.setStyle({
+            '-webkit-box-orient': this.orientation,
+            '-webkit-box-direction': this.direction,
+            '-webkit-box-pack': this.pack,
+            '-webkit-box-align': this.align
+        });
+
+        if (target != this.innerCt) {
+            width = target.getWidth(true);
+            height = target.getHeight(true);
+            if (width > 0) {
+                this.innerCt.setWidth(width);
+            }
+            if (height > 0) {
+                this.innerCt.setHeight(height);
+            }
+            //TODO : This is way too expensize get/set twice??
+            this.innerCt.setSize(target.getWidth(true), target.getHeight(true));
+        }
+
+        this.handleBoxes(target);
+
+        if (this.totalWidth) {
+            this.innerCt.setWidth(Math.max(target.getWidth(true), this.totalWidth));
+            var height = target.getHeight(true);
+            if (height > 0) {
+                this.innerCt.setHeight(height);
+            }
+        }
+
+        if (this.totalHeight) {
+            this.innerCt.setHeight(Math.max(target.getHeight(true), this.totalHeight));
+            var width = target.getWidth(true);
+            if (width > 0) {
+                this.innerCt.setWidth(width);
+            }
+        }
+    },
+
+    renderItems : function(ct) {
+        if (!this.innerCt) {
+            if (this.owner.scrollEl) {
+                this.innerCt = this.owner.scrollEl.addClass(this.innerCls);
+            }
+            else {
+                this.innerCt = this.getTarget().createChild({
+                    cls: this.innerCls
+                });
+            }
+        }
+
+        Ext.layout.BoxLayout.superclass.renderItems.call(this, ct, this.innerCt);
+    }
+});
+
+<div id="cls-Ext.layout.HBoxLayout"></div>/**
+ * @class Ext.layout.HBoxLayout
+ * @extends Ext.layout.BoxLayout
+ * <p>A layout that arranges items horizontally across a Container. This layout optionally divides available horizontal
+ * space between child items containing a numeric <code>flex</code> configuration.</p>
+ * This layout may also be used to set the heights of child items by configuring it with the {@link #align} option.
+ */
+Ext.layout.TYPES['hbox'] = Ext.layout.HBoxLayout = Ext.extend(Ext.layout.BoxLayout, {
+    orientation: 'horizontal',
+
+    handleBoxes : function(target) {
+        var items = this.getLayoutItems(),
+            ln = items.length,
+            width, item, i, size;
+
+        if (target === this.innerCt) {
+            target.setWidth(target.parent().getWidth(true));
+        }
+
+        for (i = 0; i < ln; i++) {
+            item = items[i];
+            if (item.flex != undefined) {
+                item.el.setWidth(0);
+                item.el.setStyle('-webkit-box-flex', item.flex);
+            }
+            else {
+                item.doComponentLayout(item.width, item.height);
+            }
+        }
+
+        this.totalWidth = 0;
+        for (i = 0; i < ln; i++) {
+            item = items[i];
+            if (item.flex != undefined) {
+                width = item.el.getWidth();
+                item.el.setStyle('-webkit-box-flex', null);
+                item.doComponentLayout(width, item.height || undefined);
+            }
+            this.totalWidth += (item.el.getWidth() + item.el.getMargin('lr'));
+        }
+    }
+});
+
+<div id="cls-Ext.layout.VBoxLayout"></div>/**
+ * @class Ext.layout.VBoxLayout
+ * @extends Ext.layout.BoxLayout
+ * <p>A layout that arranges items vertically down a Container. This layout optionally divides available vertical
+ * space between child items containing a numeric <code>flex</code> configuration.</p>
+ * This layout may also be used to set the widths of child items by configuring it with the {@link #align} option.
+ */
+Ext.layout.TYPES['vbox'] = Ext.layout.VBoxLayout = Ext.extend(Ext.layout.BoxLayout, {
+    orientation: 'vertical',
+
+    handleBoxes : function(target) {
+        var items = this.getLayoutItems(),
+            ln = items.length,
+            item, i, size, height;
+
+        if (target === this.innerCt) {
+            target.setHeight(target.parent().getHeight(true));
+        }
+
+        for (i = 0; i < ln; i++) {
+            item = items[i];
+            if (item.flex != undefined) {
+                item.el.setHeight(0);
+                item.el.setStyle('-webkit-box-flex', item.flex);
+            }
+            else {
+                item.doComponentLayout(item.width, item.height);
+            }
+        }
+
+        this.totalHeight = 0;
+        for (i = 0; i < ln; i++) {
+            item = items[i];
+            if (item.flex != undefined) {
+                height = item.el.getHeight();
+                item.el.setStyle('-webkit-box-flex', null);
+                item.doComponentLayout(item.width || undefined, height);
+            }
+            this.totalHeight += (item.el.getHeight() + item.el.getMargin('tb'));
+        }
+    }
+});</pre>    
+</body>
+</html>

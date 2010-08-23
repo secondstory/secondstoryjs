@@ -1,0 +1,20 @@
+CACHE MANIFEST
+#rev49
+
+resources/icon.png
+resources/loading.png
+
+resources/themes/wood/board.jpg
+resources/themes/wood/cards.png
+
+resources/themes/metal/board.jpg
+resources/themes/metal/cards.png
+resources/themes/metal/info.png
+
+../../resources/css/ext-touch.css
+resources/solitaire-notheme.css
+resources/themes/wood/wood.css
+resources/themes/metal/metal.css
+
+../../ext-touch-debug.js
+solitaire-all-debug.js

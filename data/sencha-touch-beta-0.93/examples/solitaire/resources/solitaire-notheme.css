@@ -1,0 +1,177 @@
+html, body {
+    background-color: #000;
+}
+
+#loading-mask {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 768px;
+    height: 1024px;
+    z-index: 20000;
+    background: #000 url('loading.png') no-repeat;
+}
+
+#loading-mask.landscape {
+    -webkit-transform: rotate(90deg);    
+    
+    left: 108px;
+    top: -148px;
+}
+
+#loading-mask.fadeout {
+    -webkit-transition-property: opacity;
+    -webkit-transition-duration: 1s;
+    opacity: 0;
+}
+
+.x-solitaire-board .x-box-item, .x-solitaire-board .x-box-layout-ct {
+    overflow: visible;
+}
+
+.x-solitaire-stack, .x-solitaire-deck {
+    position: relative;
+}
+
+.x-solitaire-target {
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    height: 143px;
+    width: 100px;
+}
+
+.x-solitaire-card {
+    position: absolute;
+    height: 143px;
+    width: 100px;
+    z-index: 100;
+}
+
+.x-solitaire-mover {
+    min-width: 100px;
+    min-height: 143px;
+}
+
+.x-solitaire-card.x-dragging {
+    -webkit-box-shadow: 3px 3px 10px #222;
+    -moz-box-shadow: 0px 0px 3px #222;
+    opacity: 1;
+}
+
+.x-solitaire-card-face {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 143px;
+    width: 100px;
+    
+    -webkit-transition-property: -webkit-transform;
+    -webkit-transition-duration: 0.15s;
+}
+
+.x-solitaire-card-move {
+    -webkit-transform: translateX(130px);
+    -webkit-transition-duration: .5s;
+    -webkit-transition-timing-function: default;
+    z-index: 200;
+}
+
+.x-solitaire-card-face-back {
+    -webkit-transform: rotateY(0deg);
+}
+
+.x-solitaire-card-face-front {
+    -webkit-transform: rotateY(90deg);
+}
+
+.x-solitaire-card.revealed .x-solitaire-card-face-back {
+    -webkit-transition-timing-function: linear;
+	
+	-webkit-transform: rotateY(90deg);
+}
+
+.x-solitaire-card.revealed .x-solitaire-card-face-front {
+	-webkit-transform: rotateY(0deg);
+	-webkit-transition-delay: 0.15s;
+	-webkit-transition-duration: 0.35s;
+}
+
+.x-solitaire-card .x-solitaire-card-face-back {
+    background-position: 0px 0px;
+}
+
+.x-solitaire-card-value {
+    position: absolute;
+    font-family: helvetica;
+    font-size: 17px;
+    font-weight: 100;
+}
+
+.x-solitaire-card-value-top {
+    top: 4px;
+    left: 6px;
+}
+
+.x-solitaire-card-value-bottom {
+    bottom: 4px;
+    right: 6px;
+    -webkit-transform: rotate(-180deg);
+    -moz-transform: rotate(-180deg);
+}
+
+.x-solitaire-mover {    
+    position: absolute;
+    z-index: 200;
+}
+
+.x-solitaire-mover .x-solitaire-target {
+    background: none;
+}
+
+/* Toolbar */
+
+.x-solitaire-board .x-toolbar.x-docked-bottom {
+    background: none;
+    background-color: #111;
+    height: 38px;
+}
+
+/* End toolbar */
+
+.savedGame {
+    margin: 10px 10px 0 10px;
+    padding: 5px;
+    border: 1px solid #ccc;
+}
+
+.savedGame h3 {
+    font-size: 120%;
+    margin-bottom: 5px;
+}
+
+.x-solitaire-time {
+    color: #ccc;
+    font-size: 14px;
+    text-align: right;
+}
+
+.x-solitaire-moves {
+    color: #ccc;
+    font-size: 14px;
+}
+
+.x-solitaire-suit-clubs {
+    background-position: -100px;
+}
+
+.x-solitaire-suit-diamonds {
+    background-position: -200px;
+}
+
+.x-solitaire-suit-spades {
+    background-position: -300px;
+}
+
+.x-solitaire-suit-hearts {
+    background-position: -400px;
+}

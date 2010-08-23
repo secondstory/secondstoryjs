@@ -1,0 +1,27 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />    
+  <title>The source code</title>
+    <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+</head>
+<body  onload="prettyPrint();">
+    <pre class="prettyprint lang-js"><div id="cls-Ext.form.TextField"></div>/**
+ * @class Ext.form.TextField
+ * @extends Ext.form.Field
+ * Simple text input class
+ * @xtype textfield
+ */
+Ext.form.TextField = Ext.extend(Ext.form.Field, {
+    type: 'text',
+    maskField: Ext.platform.isIPhoneOS
+    
+    <div id="cfg-Ext.form.TextField-maxLength"></div>/**
+     * @cfg {Integer} maxLength Maximum number of character permit by the input. 
+     */
+});
+
+Ext.reg('textfield', Ext.form.TextField);
+</pre>    
+</body>
+</html>

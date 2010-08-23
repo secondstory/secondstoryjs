@@ -1,0 +1,204 @@
+@import 'ext-base';
+
+html, body, * {
+  @include box-sizing(border-box);
+  -webkit-user-select: none;
+  font-family: "Helvetica Neue", HelveticaNeue, "Helvetica-Neue", Helvetica, sans-serif;
+  -webkit-text-size-adjust: none;
+  -webkit-touch-callout: none;
+  font-weight: normal;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.x-ipad .x-container,
+.x-ipad .x-panel,
+.x-ipad .x-toolbar {
+  -webkit-transform: translate3d(0,0,0);  
+}
+
+/*::-webkit-scrollbar-track-piece {
+    background-color: blue;
+    -webkit-border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+    height: 50px;
+    background-color: red;
+    -webkit-border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+    width: 50px;
+    background-color: red;
+    -webkit-border-radius: 3px;
+}
+*/
+
+body {
+  font-size: 100%;
+}
+
+body.x-android-os.x-phone {
+  font-size: 120%;
+}
+
+body.x-iphone-os.x-phone {
+  font-size: 114%;
+}
+
+input, textarea {
+  -webkit-user-select: text;
+}
+
+.x-hidden-visibility {
+    visibility: hidden !important;
+}
+
+.x-hidden-display {
+    display: none !important;
+}
+
+.x-hidden-offsets {
+  position: absolute !important;
+  left: -10000em;
+  top: -10000em;
+  visibility: hidden;
+}
+
+.x-fullscreen {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+}
+
+.x-scroller-parent {
+    overflow: hidden !important;
+}
+
+.x-scroller {
+  position: relative;
+  -webkit-transform: translate3d(0px, 0px, 0px);
+  -webkit-transition-property: -webkit-transform;
+  -webkit-transition-duration: 0;
+}
+
+.x-android-os .x-scroller {
+    -webkit-transform: translate(0px, 0px);
+}
+
+.x-draggable {
+  z-index: 1;
+  webkit-transform: translate3d(0px, 0px, 0px);
+}
+
+.x-scrollbar {
+  position: absolute;
+  z-index: 10;
+  -webkit-transition-property: -webkit-transform, opacity;
+  -webkit-border-radius: 4px;
+  opacity: 0;
+}
+
+.x-scrollbar-dark {
+  background-color: rgba(0, 0, 0, .6);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.x-scrollbar-light {
+  background-color: rgba(255, 255, 255, .6);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.x-scrollbar-vertical {
+  top: 0;
+  right: 4px;
+  width: 4px;    
+  -webkit-transform: translate3d(0px, 4px, 0px);
+}
+
+.x-scrollbar-horizontal {
+  left: 0;
+  bottom: 4px;
+  height: 4px;    
+  -webkit-transform: translate3d(4px, 0px, 0px);
+}
+
+.x-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  
+  &.x-mask-transparent {
+    background-color: transparent;
+  }
+}
+
+.x-floating {
+  position: absolute !important;
+  z-index: 10000 !important;
+}
+
+.x-dragging {
+  opacity: 0.7;
+}
+
+.x-panel-list {
+  background-color: saturate(lighten($base_color, 50%), 15%);
+}
+
+.x-map {
+  background-color: #edeae2;
+  width: 100%;
+  height: 100%;
+}
+
+@if $include_html_style == true {
+  .x-htmlcontent {
+    -webkit-user-select: auto;
+    -webkit-touch-callout: inherit;
+
+    @include blueprint-typography;
+    line-height: 1.5;
+    color: #333;
+    font-size: .8em;
+    padding: 1.5em;
+
+    ul li {
+      list-style-type: circle;
+    }
+    ol li {
+      list-style-type: decimal;
+    }
+  }
+}
+
+.x-video {
+  background-color: #000;
+}
+
+.x-sortable .x-dragging {
+  opacity: .5;
+  -webkit-box-shadow: rgba(0,0,0,.5) 0 0 2em;
+}
+
+.loading-indicator {
+  display: block;
+  text-align: center;
+  padding: 1em;
+  @include bevel_text('light');
+  font-size: 1.1em;
+}

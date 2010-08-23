@@ -1,0 +1,25 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />    
+  <title>The source code</title>
+    <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+</head>
+<body  onload="prettyPrint();">
+    <pre class="prettyprint lang-js"><div id="cls-Ext.data.MemoryProxy"></div>/**
+ * @class Ext.data.MemoryProxy
+ * @extends Ext.data.ClientProxy
+ * <p>In-memory proxy. This proxy simply uses a local variable for data storage/retrieval, so its contents are
+ * lost on every page refresh.</p>
+ */
+Ext.data.MemoryProxy = Ext.extend(Ext.data.ClientProxy, {
+    constructor: function(config) {
+        Ext.data.MemoryProxy.superclass.constructor.call(this, config);
+        
+        this.data = {};
+    }
+});
+
+Ext.data.ProxyMgr.registerType('memory', Ext.data.MemoryProxy);</pre>    
+</body>
+</html>

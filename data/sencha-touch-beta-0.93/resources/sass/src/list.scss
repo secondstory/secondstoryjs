@@ -1,0 +1,80 @@
+@import 'ext-base';
+
+$list_color: #000 !default;
+$list_bg_color: #f7f7f7 !default;
+$list_highlights: true !default;
+
+$list_pressed_color: lighten($active_color, 50%) !default;
+
+@if $include_list == true {
+  .x-list {
+    background-color: $list_bg_color;
+    
+    .x-disclosure {
+      position: absolute;
+      top: .5em;
+      right: .9em;
+    }
+
+    &.x-list-indexed .x-disclosure {
+      right: 2em;
+    }
+
+    .x-item-selected .x-disclosure {
+      background: #fff none;
+    }
+    
+    .x-list-group-items > *, 
+    &.x-list-flat .x-list-parent > * {
+      position: relative;
+      color: $list_color;
+      
+      @if $list_highlights == true {
+        border-top: 1px solid lighten($list_bg_color, 30%);
+        border-bottom: 1px solid darken($list_bg_color, 5%);
+      }
+
+      padding: .8em;
+    
+      strong {
+        font-weight: bold;
+      }
+      
+      &.x-item-pressed {
+        border-top-color: lighten($active_color, 50%);
+        background: $list_pressed_color none;
+      }
+      
+      &.x-item-selected {
+        @include bg_gradient($active_color);
+        color: #fff;
+        
+        @if $list_highlights == true {        
+          border-top-color: darken($active_color, 10%);
+          border-bottom-color: darken($active_color, 20%);
+        }
+        
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+      }
+    }
+    
+    .x-list-header {   
+      @include bg_gradient(desaturate($base_color, 30%));
+      border-bottom: 1px solid darken($base_color, 10%);  
+          
+      font-size: 0.8em;
+      color: #fff;
+      padding: 0.2em 0.4em;
+      -webkit-box-shadow: 0px .1em .3em rgba(0, 0, 0, 0.3);
+/*      opacity: 0.85;*/
+    }
+    
+    .x-list-header-swap {
+      z-index: 1;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
+  }
+}

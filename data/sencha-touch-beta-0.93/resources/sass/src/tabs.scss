@@ -1,0 +1,191 @@
+// Tab icons used with permission from Drew Wilson
+// http://pictos.drewwilson.com/
+// Pictos icons are (c) 2010 Drew Wilson
+
+@import 'ext-base';
+
+$tabheight: 43px;
+$edgewidth: 36px;
+$taboverlap: 15px;
+
+$tab_icon_size: 2.1em;
+
+@mixin sides($yoffset) {
+  &:before, &:after {
+    background-position-y: $yoffset * $tabheight;
+  }
+}
+
+@if $include_tabs == true {
+  .x-tabbar {
+    @if $include_top_tabs == true {
+      &.x-docked-top {
+        border-bottom: 5px solid #306aa1;
+
+        .x-panel-body {
+          padding: 0 $edgewidth - $taboverlap;
+        }
+
+        .x-tab {
+          margin: 5px $edgewidth - $taboverlap 0;
+          color: #295d8e;
+          font-size: 19px;
+          padding-top: 10px;
+          height: $tabheight;
+          text-shadow: #fff 0 1px 0;
+          overflow: visible;
+          position: relative;
+          background: inline_image("tabs.png") 0 -3*$tabheight repeat-x;
+
+          &:before, &:after {
+            content: "\00a0";
+            display: block;
+            position: absolute;
+            background: inline_image("tabs.png") 0 -2*$tabheight no-repeat;
+            width: $edgewidth;
+            height: $tabheight;
+            bottom: 0;
+          }
+          &::after {
+            background-position-x: -$edgewidth;
+            right: -$edgewidth;
+          }
+          &::before {
+            background-position: 0 -2 * $tabheight;
+            left: -$edgewidth;
+          }
+
+          &.x-tab-active, &.x-tab-active.x-tab-pressed {
+            color: #fff;
+            text-shadow: #000 0 -1px 0;
+            z-index: 1;
+            background-position-y: -1*$tabheight;
+            @include sides(0);
+          }
+
+          &.x-tab-pressed {
+            background-position-y: -7*$tabheight;
+            @include sides(-6);
+          }
+        }
+
+        &.x-tabbar-dark {
+          border-color: #242e38;
+        }
+        &.x-tabbar-dark .x-tab-active.x-tab-pressed, &.x-tabbar-dark .x-tab-active {
+          background-position-y: -5*$tabheight;
+          @include sides(-4);
+          z-index: 2;
+        }
+      }
+    }
+    @if $include_bottom_tabs == true {
+      &.x-docked-bottom {
+        @include bg_gradient(darken($base_color, 50%), 'glossy');
+        border-top: 1px solid darken($base_color, 30%);
+
+        .x-tab {
+          -webkit-border-radius: 3px;
+          margin: .2em .15em;
+          text-align: center;
+          width: $tab_icon_size + 1.2em;
+          height: $tab_icon_size + .8em;
+          text-shadow: #000 0 1px 0;
+          color: lighten($base_color, 20%);
+          padding: $tab_icon_size - .4em .2em 0;
+          font-weight: bold;
+          position: relative;
+
+          span.x-button-label {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 100%;
+            font-size: 9px;
+            display: inline-block;
+          }
+
+          img {
+            width: $tab_icon_size;
+            height: $tab_icon_size;
+            @include bg_gradient(darken($base_color, 10%));
+            display: block;
+            position: absolute;
+            top: .2em;
+            left: .6em;
+            -webkit-box-shadow: #000 0 1px 0px;
+            -webkit-mask-box-size: 1.7em;
+            text-shadow: #000 0 1px 0px;
+
+            @if $include_icons == true {
+              &.bookmarks {
+                -webkit-mask-box-image: inline_image("tabicons/bookmarks.png");
+              }
+              &.download {
+                -webkit-mask-box-image: inline_image("tabicons/download.png");
+              }
+              &.favorites {
+                 -webkit-mask-box-image: inline_image("tabicons/favorites.png");
+              }
+              &.info {
+                -webkit-mask-box-image: inline_image("tabicons/info.png");
+              }
+      /*        &.recent {
+                -webkit-mask-box-image: inline_image("tabicons/recent.png");
+              }*/
+              &.more {
+                -webkit-mask-box-image: inline_image("tabicons/more.png");
+              }
+              &.search {
+                -webkit-mask-box-image: inline_image("tabicons/search.png");
+              }
+              &.time {
+                -webkit-mask-box-image: inline_image("tabicons/time.png");
+              }
+              &.user {
+                -webkit-mask-box-image: inline_image("tabicons/user.png");
+              }
+              &.team {
+                -webkit-mask-box-image: inline_image("tabicons/team.png");
+              }
+              &.settings {
+                -webkit-mask-box-image: inline_image("tabicons/settings.png");
+              }
+            }
+          }
+
+          &.x-tab-active {
+            @include bg_gradient(darken($base_color, 35%), 'glossy');
+            color: #fff;
+            img {
+              @include bg_gradient(lighten(saturate($active_color, 50%), 10%), 'glossy');
+            }
+          }
+        }
+
+        &.x-tabbar-light {
+          @include bg_gradient(desaturate(lighten($base_color, 0%), 10%), 'glossy');
+          border-top-color: $base_color;
+
+          .x-tab {
+            color: darken($base_color, 20%);
+            text-shadow: lighten($base_color, 5%) 0 1px 0;
+
+            img {
+              @include bg_gradient(darken($base_color, 20%));
+            }
+
+            &.x-tab-active {
+              @include bg_gradient(desaturate(lighten($base_color, 20%), 10%), 'glossy');
+              text-shadow: lighten($base_color, 30%) 0 1px 0;
+
+              img {
+                @include bg_gradient(darken(saturate($active_color, 50%), 10%), 'glossy');
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+Sencha Touch - JavaScript Library
+Copyright (c) 2010, Sencha, Inc.
+All rights reserved.
+licensing@sencha.com
+
+http://www.sencha.com/touchlicense
+
+Open Source License
+------------------------------------------------------------------------------------------
+Sencha Touch is licensed under the terms of the Open Source GPL 3.0 license. 
+
+http://www.gnu.org/licenses/gpl.html
+
+There are several FLOSS exceptions available for use with this release for
+open source applications that are distributed under a license other than the GPL.
+
+* Open Source License Exception for Applications
+
+  http://www.sencha.com/products/floss-exception.php
+
+* Open Source License Exception for Development
+
+  http://www.sencha.com/products/ux-exception.php
+
+
+Commercial Software Beta License
+------------------------------------------------------------------------------------------
+Sencha Touch Public Beta has a commercial trial license that will expire sixty days after commercial release or November 1st, 2010. All sub-licenses to applications created with the commercial trial beta also expire at that time.
+
+* Sencha Commercial Software Beta License Agreement
+
+  http://www.sencha.com/store/touch/license.php
+
+OEM / Reseller License
+------------------------------------------------------------------------------------------
+For more details, please visit: http://www.sencha.com/products/license.php
+
+--
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT OF THIRD-PARTY INTELLECTUAL PROPERTY RIGHTS.  See the GNU
+General Public License for more details.

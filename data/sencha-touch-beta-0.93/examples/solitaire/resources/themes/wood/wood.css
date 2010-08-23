@@ -1,0 +1,45 @@
+.x-solitaire-board {
+    background-image: url('board.jpg');
+/*    background-position: 0px 20px;*/
+}
+
+.x-solitaire-target {
+    background-image: url('cards.png');
+    background-position: -500px;
+}
+
+.x-solitaire-card-red span {
+    color: #AC1314;
+}
+
+.x-solitaire-card-black span {
+    color: #5A5F63;
+}
+
+.x-solitaire-card-face {
+    background-image: url('cards.png');
+    -webkit-box-shadow: 0px 0px 2px #333;
+    -moz-box-shadow: 0px 0px 2px #333;
+    
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+}
+
+.x-solitaire-board .x-toolbar.x-docked-bottom .x-button-info {
+    background: transparent url('info.png') no-repeat;
+}
+
+.x-solitaire-board .x-toolbar.x-docked-bottom .x-button {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border: 1px solid #444;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#363636), to(#141414));
+}
+
+.x-solitaire-board .x-toolbar.x-docked-bottom .x-button span {
+    color: #ccc;
+    font-family: helvetica;
+    font-weight: 100;
+    font-size: 12px;
+    letter-spacing: 1px;
+}

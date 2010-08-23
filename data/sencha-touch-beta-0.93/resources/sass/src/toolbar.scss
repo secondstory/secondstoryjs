@@ -1,0 +1,69 @@
+@import 'ext-base';
+
+$tbheight: 3em;
+$tbspacing: .5em;
+
+@if $include_toolbars == true {
+  .x-toolbar {
+    height: $tbheight;
+    padding: 0 $tbspacing;
+    overflow: hidden;
+    position: relative;
+    border-top: 1px solid #000;
+    @include bg_gradient(darken($base_color, 20%));
+
+    & > * {
+      z-index: 1;
+    }
+
+    &.x-docked-top {
+      border-bottom: 1px solid darken($base_color, 40%);
+    }
+
+    &.x-docked-top:nth-of-type(n+2) {
+      border-bottom: 1px solid darken($base_color, 40%);
+    }
+
+    &.x-toolbar-light {
+      border-top: 1px solid darken($base_color, 20%);
+      @include bg_gradient($base_color);
+    }
+
+    &.x-toolbar-metal {
+      @include bg_gradient(#999);
+      color: #555;
+      text-shadow: rgba(255,255,255,.5) 0 1px 0;
+    }
+
+    .x-toolbar-title {
+      z-index: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      text-align: center;
+      line-height: 2.4em;
+      font-weight: bold;
+      font-size: 1.2em;
+      text-shadow: #000 0 1px 0;
+      color: #fff;
+    }
+  }
+
+  .x-floating .x-toolbar:first-child {
+    border-bottom: 0;
+    @include border-top-radius(4px);
+
+    &.x-toolbar-dark {
+      background: darken($base_color, 30%);
+      border-top: 1px solid darken($base_color, 25%);
+    }
+
+    &.x-toolbar-light {
+      $lightbg: lighten($base_color, 15%);
+      @include bg_gradient($lightbg);
+      border-top: 1px solid $lightbg;
+    }
+  }
+}

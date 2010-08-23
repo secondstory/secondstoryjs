@@ -1,0 +1,160 @@
+// This is just a quick example of how to create a custom Sass-based stylesheets
+
+// Note how we are changing the overall style of buttons
+// and also optimizing our the CSS download by removing unused components
+
+// This must be compiled after it is edited, for more information, see
+// http://www.sass-lang.org
+
+$base_color: #386AA9;
+$color_light: #444;
+$complement: #777;
+$include_tabs: false;
+$include_carousel: false;
+$include_picker: false;
+$include_indexbar: false;
+$include_nested_list: false;
+
+@import '../../../../resources/sass/ext-touch';
+
+.splash {
+  background: #092542 inline_image("../../examples/geocongress/resources/img/bg.png") center top no-repeat;
+}
+
+.start-screen {
+  background-color: #ccc;
+  margin-top: 115px;
+}
+
+.x-toolbar {
+  .x-toolbar-title {
+    font-weight: normal;
+  }
+}
+
+.attribution {
+  color: #666;
+  text-shadow: rgba(255,255,255,.2) 0 1px 0;
+  padding: 1em 0;
+}
+
+.billsummary {
+    padding: 0.5em;
+    text-align: justify;
+}
+.billsummary p {
+    margin: 0.5em;
+}
+
+.legislator-brief {
+  margin: -10px;
+  padding: 15px 10px 10px 70px;
+}
+
+.legislator-tnail {
+  width: 50px;
+  height: 50px;
+  background-position: center center;
+  -webkit-border-radius: 5px;
+  overflow: hidden;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  -webkit-box-shadow: #ccc 0 1px 2px;
+}
+
+.committees {
+    padding: 0.5em 0.4em;
+    background-color: #f7f7f7;
+    border-top: 1px solid white;
+    border-bottom: 1px solid #CFCFCF;            
+}
+.legislator-list-item {
+  height: 70px;
+  position: relative;
+  overflow: hidden;
+  font-weight: bold;
+  padding: 20px 10px 10px 70px !important;
+  @include bevel_text('light');
+  
+  &.x-view-selected {
+    background: #315d94 none !important;
+    color: lighten(#315d94, 50%) !important;
+  }
+  img {
+    position: absolute;
+    left: 0px;
+    top: 0;
+  }
+}
+.legislator-tabs {
+  background-color: #eee;
+}
+.x-tabbar {
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #666;
+  
+  .x-tab {
+    border: 1px ;
+    width: 33.5%;
+    padding: .4em;
+    border: 1px solid #eee;
+    border-bottom-color: #ddd;
+    text-align: center;
+    @include bg_gradient(#bbb);
+    @include bevel_text('light');
+    span {
+      font-weight: bold;
+      font-size: .9em;
+    }
+    &:first-child {
+      border-right: 1px solid #ccc;
+    }
+    &:last-child {
+      border-left: 1px solid #ccc;
+    }
+    &.x-tab-active {
+      @include bg_gradient(#999, 'recessed');
+      border: 1px solid  #777;
+      border-bottom-color: #999;
+    }
+  }
+}
+
+.legislator-votes {
+  font-size: 13px;
+  line-height: 16px;
+  .results {
+    color: #999;
+  }
+}
+
+.x-htmlcontent {
+  padding: 10px;
+  font-size: 14px;
+  line-height: 18px;  
+  
+  h3 {
+    margin-bottom: 0;
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+}
+
+.x-list .x-list-group h3, 
+.bio .x-toolbar {
+  background: rgba(100,100,100, .7) none;
+  border-color: #999;
+  @include bevel_text;
+  height: 1.5em;
+  padding: 0.2em 0.4em;
+
+  -webkit-box-shadow: 0px .1em .3em rgba(0, 0, 0, 0.3);
+  .x-toolbar-title {
+      @include bevel_text;
+      text-align: left;
+      line-height: 1.4em;
+      font-size: .8em;
+      padding: .2em .4em;
+  }
+}

@@ -1,0 +1,25 @@
+/* line 1, ../../sass/src/layout.scss */
+.x-layout-box {
+  overflow: hidden; }
+
+/* line 5, ../../sass/src/layout.scss */
+.x-layout-box-inner {
+  display: -webkit-box;
+  position: relative;
+  -webkit-box-align: stretch; }
+
+/* line 11, ../../sass/src/layout.scss */
+.x-fit-item {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: hidden; }
+
+/* line 18, ../../sass/src/layout.scss */
+.x-panel > .x-docked {
+  position: absolute;
+  z-index: 5; }
+
+/* line 23, ../../sass/src/layout.scss */
+.x-layout-fit {
+  overflow: hidden; }
