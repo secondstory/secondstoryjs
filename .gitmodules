@@ -10,7 +10,7 @@
 [submodule "router"]
 	path = router
 	url = git@github.com:secondstory/secondstoryjs-router.git
-[submodule "model"]
+[submodule "model/html5store"]
 	path = model
 	url = git@github.com:secondstory/secondstoryjs-html5storage.git
 [submodule "controller/state_machine"]
