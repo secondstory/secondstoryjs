@@ -22,3 +22,6 @@
 [submodule "data"]
 	path = data
 	url = git@github.com:secondstory/secondstoryjs-data.git
+[submodule "model/html5_store"]
+	path = model/html5_store
+	url = git@github.com:secondstory/secondstoryjs-html5storage.git
