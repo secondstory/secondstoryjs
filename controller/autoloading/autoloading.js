@@ -36,7 +36,7 @@ steal.plugins("ss/model",
           this.modelId   = this.modelId || this.getModelFromIdentityClass(this.Class.modelClass.shortName.toLowerCase());
           this.modelData = this.modelData || { id: this.modelId };
           if (this.modelId) {
-            this.Class.modelClass.findOne(this.modelId, {}, this.callback("autoloadingCallback"));
+            this.Class.modelClass.findOne(this.modelId.toString(), {}, this.callback("autoloadingCallback"));
           }
         } else {
           this.modelId = "all";

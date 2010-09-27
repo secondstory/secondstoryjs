@@ -1,4 +1,7 @@
-steal.plugins('ss/model/html5_store').then("//steal/generate/inflector", function($) {
+steal("//steal/generate/ejs", '//steal/generate/inflector', '//steal/rhino/prompt', function(steal){
+
+steal.plugins('jquery/model', 'jquery/model/list')
+     .then(function($) {
   var _model = window.SS && window.SS.Model;
 
   $.Model.extend("SS.Model",
@@ -6,15 +9,13 @@ steal.plugins('ss/model/html5_store').then("//steal/generate/inflector", functio
     fetchMethod: "getJSON",
     
     setup: function(){
-		  this.storeType = steal.options.env === 'production' 
-		                     ? SS.Model.HTML5Store.Session
-		                     : $.Model.Store;
+		  this.listType = SS.Model.List;
       this._super.apply(this, arguments);
       this.addAttr("fullyLoaded", "boolean");
     },
 
     findOne: function(id, params, success) {
-      var cachedModel = this.store.findOne(id);
+      var cachedModel = this.list.get(id)[0];
       if ((typeof cachedModel !== "undefined") && cachedModel) {
         //@steal-remove-start
         if (cachedModel.fullyLoaded) {
@@ -30,7 +31,7 @@ steal.plugins('ss/model/html5_store').then("//steal/generate/inflector", functio
     wrap: function(attributes) {
 	    if (!attributes) { return null; }
 	    
-      var cachedModel = this.store.findOne(attributes.id);
+      var cachedModel = this.list.get(attributes.id);
       if ((typeof cachedModel !== "undefined") && cachedModel) {
         return cachedModel;
       } else {
@@ -69,9 +70,9 @@ steal.plugins('ss/model/html5_store').then("//steal/generate/inflector", functio
           this.attr("fullyLoaded", true);
           this.associate();
 
-          // Push updates to backing store
-          this.Class.store.destroy(this.id);
-          this.Class.store.create(this);
+          // Push updates to backing list
+          this.Class.list.remove(this.id);
+          this.Class.list.add(this);
                   
           aCallback(this);
         }));
@@ -84,4 +85,5 @@ steal.plugins('ss/model/html5_store').then("//steal/generate/inflector", functio
     $.extend(SS.Model, _model);
     _model = null;
   }
+});
 });

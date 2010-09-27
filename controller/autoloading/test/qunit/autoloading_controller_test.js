@@ -7,7 +7,7 @@ SS.Model.extend("AutoloadingPerson",
 }
 );
 
-AutoloadingPerson.store.clear();
+//AutoloadingPerson.list.clear();
 var testPerson = new AutoloadingPerson({ id: 1, name: "Testy" });
 testPerson.attr("fullyLoaded", true);
 
@@ -26,7 +26,7 @@ asyncTest("Should autoload based on dom class", function(){
   stop();
   var jqueryElem     = $("<div class='autoloadingperson_" + testPerson.id +"' />"),
       testController = new AutoloadingTestController1(jqueryElem.get(0));
-  equals(testController.modelData.name, testPerson.name);
+  equals(testController.modelData.name, testPerson.attr('name'));
   equals(testController.currentStateName, "autoloaded");
 });
 
@@ -45,7 +45,7 @@ asyncTest("Should autoload based on modelId", function(){
   
   stop();
   var testController = new AutoloadingTestController2($("<div />").get(0));
-  equals(testController.modelData.name, testPerson.name);
+  equals(testController.modelData.name, testPerson.attr('name'));
   equals(testController.currentStateName, "autoloaded");
 });
 
@@ -65,6 +65,6 @@ asyncTest("Should be able to manually trigger autoload", function(){
   var testController = new AutoloadingTestController3($("<div />").get(0));
   testController.publishState("beginAutoloading");
   stop();
-  equals(testController.modelData.name, testPerson.name);
+  equals(testController.modelData.name, testPerson.attr('name'));
   equals(testController.currentStateName, "autoloaded");
 });
