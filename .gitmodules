@@ -16,9 +16,6 @@
 [submodule "plugins/smartTruncate"]
 	path = plugins/smartTruncate
 	url = git@github.com:secondstory/smartTruncate.git
-[submodule "view/mustache"]
-	path = view/mustache
-	url = git@github.com:tdreyno/mustache-javascriptmvc.git
 [submodule "data"]
 	path = data
 	url = git@github.com:secondstory/secondstoryjs-data.git
