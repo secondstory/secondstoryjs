@@ -1,6 +1,6 @@
 steal("//steal/generate/ejs", '//steal/generate/inflector', '//steal/rhino/prompt', function(steal){
 
-steal.plugins('jquery/model', 'jquery/model/list')
+steal.plugins('jquery/model', 'jquery/model/associations', 'ss/model/list')
      .then(function($) {
   var _model = window.SS && window.SS.Model;
 
@@ -58,9 +58,7 @@ steal.plugins('jquery/model', 'jquery/model/list')
       return '/srv/' + steal.Inflector.pluralize(this.shortName.toLowerCase());
     }
   },
-  {    
-    associate: function() { },
-    
+  {
     loadFully: function(aCallback) {
       if (this.attr("fullyLoaded") === true) {
         aCallback(this);
@@ -68,7 +66,6 @@ steal.plugins('jquery/model', 'jquery/model/list')
         $[this.Class.fetchMethod](this.Class.apiPath() + '/' + this.id + '.json', {}, this.callback(function(newData) {
           this.attrs(newData);
           this.attr("fullyLoaded", true);
-          this.associate();
 
           // Push updates to backing list
           this.Class.list.remove(this.id);
