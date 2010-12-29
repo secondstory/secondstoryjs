@@ -1,5 +1,5 @@
 steal.plugins('jquery/model/list')
-     .then("//steal/generate/inflector", function($) {
+     .then(function($) {
    
 	$.Model.List.extend("SS.Model.List", {
 	});

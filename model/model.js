@@ -59,6 +59,7 @@ steal.plugins('jquery/model', 'jquery/model/associations', 'ss/model/list')
     }
   },
   {
+    // TODO: Link up with $.model.service.json_rest
     loadFully: function(aCallback) {
       if (this.attr("fullyLoaded") === true) {
         aCallback(this);
